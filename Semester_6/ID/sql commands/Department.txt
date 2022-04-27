@@ -1,0 +1,15 @@
+Select * from Department;
+
+INSERT INTO Department(Dept_name,Building,Budget) values('Biology','Watson',90000);
+
+INSERT INTO Department(Dept_name,Building,Budget) values('Comp. Sci.','Taylor',100000);
+
+INSERT INTO Department(Dept_name,Building,Budget) values('Elec. Eng.','Taylor',85000);
+
+INSERT INTO Department(Dept_name,Building,Budget) values('Finance','Painter',120000);
+
+INSERT INTO Department(Dept_name,Building,Budget) values('History','Painter',50000);
+
+INSERT INTO Department(Dept_name,Building,Budget) values('Music','Packard',80000);
+
+INSERT INTO Department(Dept_name,Building,Budget) values('Physics','Watson',70000);

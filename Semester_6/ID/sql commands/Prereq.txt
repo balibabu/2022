@@ -1,0 +1,15 @@
+Select * from pREREQ;
+
+INSERT INTO Prereq(Course_id,Prereq_id) values('BIO-301','BIO-101');
+
+INSERT INTO Prereq(Course_id,Prereq_id) values('BIO-399','BIO-101');
+
+INSERT INTO Prereq(Course_id,Prereq_id) values('CS-190','CS-101');
+
+INSERT INTO Prereq(Course_id,Prereq_id) values('CS-315','CS-101');
+
+INSERT INTO Prereq(Course_id,Prereq_id) values('CS-319','CS-101');
+
+INSERT INTO Prereq(Course_id,Prereq_id) values('CS-347','CS-101');
+
+INSERT INTO Prereq(Course_id,Prereq_id) values('EE-181','PHY-101');
