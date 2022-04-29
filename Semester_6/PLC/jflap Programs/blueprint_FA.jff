@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><!--Created with JFLAP 7.1.--><structure>&#13;
+	<type>fa</type>&#13;
+	<automaton/>&#13;
+		<!--The list of states.-->&#13;
+
+		<!--The list of transitions.-->&#13;
+
+
+	</automaton>&#13;
+</structure>
+
+<!--		SAMPLE STATE
+
+        <state id="2" name="q2">&#13;  CHANGE THE ID AND NAME
+			<x>150.0</x>&#13;
+			<y>120.0</y>&#13;
+			<initial/>&#13;    			PUT THIS LINE TO MAKE STATE INITIAL
+			<final/>&#13;				PUT THIS LINE TO MAKE STATE FINAL
+		</state>&#13;
+-->
+
+<!--		SAMPLE TRANSITION
+
+		<transition>&#13;
+			<from>0</from>&#13;
+			<to>1</to>&#13;
+			<read>a1</read>&#13;
+		</transition>&#13;
+-->
