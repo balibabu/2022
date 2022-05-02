@@ -1,0 +1,116 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+C:/Users/19410/My Drive/Class/USP/assignment2/a2q1.c
+stdio.h
+-
+
+C:/Users/19410/My Drive/Class/USP/assignment2/a2q10.c
+stdio.h
+-
+
+C:/Users/19410/My Drive/Class/USP/assignment2/a2q11.c
+stdio.h
+-
+
+C:/Users/19410/My Drive/Class/USP/assignment2/a2q12.c
+stdio.h
+-
+
+C:/Users/19410/My Drive/Class/USP/assignment2/a2q13.c
+stdio.h
+-
+
+C:/Users/19410/My Drive/Class/USP/assignment2/a2q14.c
+stdio.h
+-
+
+C:/Users/19410/My Drive/Class/USP/assignment2/a2q15.c
+stdio.h
+-
+
+C:/Users/19410/My Drive/Class/USP/assignment2/a2q16.c
+stdio.h
+-
+
+C:/Users/19410/My Drive/Class/USP/assignment2/a2q18.c
+stdio.h
+-
+
+C:/Users/19410/My Drive/Class/USP/assignment2/a2q19.c
+stdio.h
+-
+
+C:/Users/19410/My Drive/Class/USP/assignment2/a2q2.c
+stdio.h
+-
+
+C:/Users/19410/My Drive/Class/USP/assignment2/a2q20.c
+stdio.h
+-
+
+C:/Users/19410/My Drive/Class/USP/assignment2/a2q21.c
+stdio.h
+-
+string.h
+-
+
+C:/Users/19410/My Drive/Class/USP/assignment2/a2q22.c
+stdio.h
+-
+
+C:/Users/19410/My Drive/Class/USP/assignment2/a2q23.c
+stdio.h
+-
+
+C:/Users/19410/My Drive/Class/USP/assignment2/a2q24.c
+stdio.h
+-
+
+C:/Users/19410/My Drive/Class/USP/assignment2/a2q25.c
+stdio.h
+-
+string.h
+-
+
+C:/Users/19410/My Drive/Class/USP/assignment2/a2q26.c
+stdio.h
+-
+math.h
+-
+
+C:/Users/19410/My Drive/Class/USP/assignment2/a2q3.c
+stdio.h
+-
+
+C:/Users/19410/My Drive/Class/USP/assignment2/a2q4.c
+stdio.h
+-
+
+C:/Users/19410/My Drive/Class/USP/assignment2/a2q5.c
+stdio.h
+-
+
+C:/Users/19410/My Drive/Class/USP/assignment2/a2q6.c
+stdio.h
+-
+
+C:/Users/19410/My Drive/Class/USP/assignment2/a2q7.c
+stdio.h
+-
+
+C:/Users/19410/My Drive/Class/USP/assignment2/a2q8.c
+stdio.h
+-
+
+C:/Users/19410/My Drive/Class/USP/assignment2/a2q9.c
+stdio.h
+-
+
+C:/Users/19410/My Drive/Class/USP/assignment2/tempCodeRunnerFile.c
+

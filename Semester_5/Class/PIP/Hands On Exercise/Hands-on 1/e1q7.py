@@ -1,0 +1,12 @@
+ruler1='1'
+joint=int(ruler1)
+print(ruler1)
+joint+=1
+ruler1=ruler1+str(joint)+ruler1
+print(ruler1)
+joint+=1
+ruler1=ruler1+str(joint)+ruler1
+print(ruler1)
+joint+=1
+ruler1=ruler1+str(joint)+ruler1
+print(ruler1)

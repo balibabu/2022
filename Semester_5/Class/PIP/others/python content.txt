@@ -1,0 +1,33 @@
+Programming in Python
+
+Subject code: CSE3142
+grading-5
+credit-3
+
+Syllabus:
+
+chapter 1: Introduction
+chapter 2: Function
+chapter 3: Control Structure
+chapter 4: Debugging
+chapter 5: Scope
+chapter 6: String
+chapter 7: Mutable and immutable objects
+chapter 8: Recursion
+chapter 9: Files and Exception
+chapter 10: Classes I
+chapter 11: chapter II
+chapter 12: LIST manupulation
+chapter 13: Data structure-I Stack and queue
+chapter 14: Data Structure-II Linked list
+chapter 15: data structure-III BST
+
+Ecaluation Scheme
+5% Attendance
+20% Assignment
+15% Mid term
+60% End term
+
+
+Text Book
+-> python programming a modular approach by pearson, Indian

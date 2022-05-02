@@ -1,0 +1,6 @@
+Python
+C/C++
+Design Of Operating System
+Computer Networking
+Algorithm Design
+Theory of Computation

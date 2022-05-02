@@ -1,0 +1,97 @@
+1. Write the SQL Expressions for the following SQL Queries and verify it in your PC by 
+executing it.
+
+a) Display the structure of all the tables you have created in assignment (1).
+
+describe instructor;
+describe Department;
+describe Prereq;
+describe Teaches;
+describe course;
+
+b) Display the contents of all the tables you have created in assignment (1).
+
+select * from instructor;
+select * from Department;
+select * from Prereq;
+select * from Teaches;
+select * from course;
+
+c) Display the name and department of each instructor.
+select name,dept_name from instructor;
+
+d) Display the name and salary of Comp. Sci. Instructors.
+select name,salary from instructor where dept_name='Comp.Sci.';
+
+e) Display the records of instructor who belongs to Physics department and getting salary less than 90000.
+select * from instructor where dept_name='Physics' and salary<90000;
+
+f) Display the name of the instructors who do not belong to Comp. Sci. Department.
+select * from instructor where dept_name!='Comp.Sci.';
+
+g) Display the names of the different department distinctly available in Instructor table.
+select distinct dept_name from instructor;
+
+h) Display all Course_id‘s that are taught in Spring semester of 2009.
+select course_id from Teaches where semester='Spring' and year=2009;
+
+i) Display course titles that are taught in Comp. Sci. Department and do not have credit equals to 3.
+select title from course where credits!=3;
+
+j) Display all columns of course table sorted in descending order of department names.
+select * from course order by dept_name DESC;
+
+k) Add a date_of_join column to instructor table.
+Alter table instructor add date_of_join varchar2(20);
+
+
+
+on testing
+
+l) Insert date values to existing rows.
+INSERT INTO instructor(date_of_join) values('1st may 2022') where name=*;
+
+m) Change the name of dept_name to department in all the tables
+select dept_name as department from instructor;
+or,
+ALTER TABLE instructor RENAME COLUMN dept_name TO department;
+course
+prereq
+department
+
+n) Change the name of “Prereq” table with new name “Prerequired”
+ ALTER TABLE Prereq RENAME TO Prerequired;
+
+o) Change Course_id column name to Sub_code.
+ALTER TABLE Course RENAME COLUMN Course_id TO Sub_code;
+ALTER TABLE Prerequired RENAME COLUMN Course_id TO Sub_code;
+ALTER TABLE Teaches RENAME COLUMN Course_id TO Sub_code;
+
+p) Change the data type of name to varchar2 (50).
+ALTER TABLE instructor Alter COLUMN name varchar2(50);
+
+q) Change the name of Instructor table to Faculty_Info.
+ALTER TABLE instructor RENAME TO Faculty_Info;
+
+r) Change the Column size of Course_id in Course table from 10 to 8.
+ALTER TABLE course Alter COLUMN course_id varchar2(8);
+
+s) Delete the content of the table Prereq along with its description.
+drop prereq;
+
+t) Change the column name ‘Building’ of Department table by new column name ‘Builder’.
+ALTER TABLE Department RENAME COLUMN Building TO Builder;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
