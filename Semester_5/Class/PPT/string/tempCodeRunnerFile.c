@@ -1,1 +1,0 @@
- printf("first string is %s\n",str1);
