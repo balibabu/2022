@@ -46,5 +46,3 @@ def main():
     f1.write(getFooter())
     f1.close()
     print('done')
-
-main()
