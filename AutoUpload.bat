@@ -10,5 +10,5 @@ git status
 git commit -m"auto uploaded by bat file"
 git push
 ECHO ===================================================================================
-ECHO Everything Done. Bye, Have a Good Day
+ECHO Everything Done. Bye, Have a Good Day (•‿•)
 PAUSE
