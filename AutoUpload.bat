@@ -1,6 +1,6 @@
 @ECHO OFF
 ECHO Auto pulling, adding, commiting and pushing on Github.
-ECHO .
+ECHO ======================================================
 D:
 cd Works_Space\SOA_University
 git pull
@@ -9,6 +9,6 @@ git add .
 git status
 git commit -m"auto uploaded by bat file"
 git push
-ECHO .
+ECHO ======================================================
 ECHO Have a Good Day
 PAUSE
