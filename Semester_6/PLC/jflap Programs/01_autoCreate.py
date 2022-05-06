@@ -18,10 +18,21 @@ def getState():
     string=f'\n<state id="{id}" name="{stateName}">&#13;<x>{x}</x>&#13;<y>{y}</y>&#13;{"<initial/>&#13;"*int(isInitial)}{"<final/>&#13;"*int(isFinal)}</state>&#13;\n'
     return string
 
+def getCharsList(reg):
+    lst=[]
+    if '-' in reg:
+        lst=[chr(i) for i in range(ord(reg[0]),ord(reg[-1])+1)]
+    elif ' ' in reg:
+        lst=reg.split(' ')
+    elif 'vowel'==reg:
+        lst=['a','e','i','o','u']
+    return lst
+
 def getTransition():
     _from=input('from stateID: ')
     _to=input('to stateID: ')
-    values=input('enter transactions with spaces: ').split(' ')
+    print('enter chars with spaces: ')
+    values=getCharsList(input())
     query='\n'
     for i in values:
         query+=f'<transition>&#13;<from>{_from}</from>&#13;<to>{_to}</to>&#13;<read>{i}</read>&#13;</transition>&#13;\n'
