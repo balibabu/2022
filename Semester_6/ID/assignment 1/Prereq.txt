@@ -1,4 +1,4 @@
-Select * from pREREQ;
+create table Prereq( Course_id varchar(10),Prereq_id varchar(10));
 
 INSERT INTO Prereq(Course_id,Prereq_id) values('BIO-301','BIO-101');
 
@@ -13,3 +13,5 @@ INSERT INTO Prereq(Course_id,Prereq_id) values('CS-319','CS-101');
 INSERT INTO Prereq(Course_id,Prereq_id) values('CS-347','CS-101');
 
 INSERT INTO Prereq(Course_id,Prereq_id) values('EE-181','PHY-101');
+
+select * from Prereq;

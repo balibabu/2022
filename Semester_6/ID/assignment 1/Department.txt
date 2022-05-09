@@ -1,4 +1,4 @@
-Select * from Department;
+create table Department( Dept_name varchar(20),Building varchar(20), Budget int);
 
 INSERT INTO Department(Dept_name,Building,Budget) values('Biology','Watson',90000);
 
@@ -13,3 +13,5 @@ INSERT INTO Department(Dept_name,Building,Budget) values('History','Painter',500
 INSERT INTO Department(Dept_name,Building,Budget) values('Music','Packard',80000);
 
 INSERT INTO Department(Dept_name,Building,Budget) values('Physics','Watson',70000);
+
+select * from Department;
