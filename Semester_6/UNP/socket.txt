@@ -1,0 +1,4 @@
+// int sockfd=socket(domain, type, protocol)
+
+Bind Function:
+int bind(int sockfd, struct sockaddr, *serveraddr, int addrlen)

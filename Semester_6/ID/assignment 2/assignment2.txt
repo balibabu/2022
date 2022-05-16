@@ -2,12 +2,19 @@
 executing it.
 
 a) Display the structure of all the tables you have created in assignment (1).
-
+< IN Oracle SQL>
 describe instructor;
 describe Department;
 describe Prereq;
 describe Teaches;
 describe course;
+
+<In Microsoft SQL server>
+exec sp_columns Instructor;
+exec sp_columns Department;
+exec sp_columns Prereq;
+exec sp_columns Teaches;
+exec sp_columns course;
 
 b) Display the contents of all the tables you have created in assignment (1).
 
@@ -42,39 +49,40 @@ j) Display all columns of course table sorted in descending order of department 
 select * from course order by dept_name DESC;
 
 k) Add a date_of_join column to instructor table.
-Alter table instructor add date_of_join varchar2(20);
+Alter table instructor add date_of_join DATE;
+
+l) Insert date values to existing rows.
+update Instructor set date_of_join='2022-05-16';
+
+m) Change the name of dept_name to department in all the tables
+<oracle sql command>
+ALTER TABLE instructor RENAME COLUMN dept_name TO department;
+
+<ms sql command>
+sp_rename 'dbo.Instructor.Dept_name','department';
+
+
+n) Change the name of “Prereq” table with new name “Prerequired”
+<ms sql command>
+sp_rename 'dbo.Prereq','Prerequired';
+
+o) Change Course_id column name to Sub_code.
+sp_rename 'dbo.Course.Course_id','Sub_code';
+
+
+p) Change the data type of name to varchar (50).
+ALTER TABLE instructor Alter COLUMN name varchar(50);
+
+q) Change the name of Instructor table to Faculty_Info.
+sp_rename 'dbo.Instructor','Faculty_Info';
+
+r) Change the Column size of Course_id in Course table from 10 to 8.
+ALTER TABLE course Alter COLUMN course_id varchar(8);
 
 
 
 on testing
 
-l) Insert date values to existing rows.
-INSERT INTO instructor(date_of_join) values('1st may 2022') where name=*;
-
-m) Change the name of dept_name to department in all the tables
-select dept_name as department from instructor;
-or,
-ALTER TABLE instructor RENAME COLUMN dept_name TO department;
-course
-prereq
-department
-
-n) Change the name of “Prereq” table with new name “Prerequired”
- ALTER TABLE Prereq RENAME TO Prerequired;
-
-o) Change Course_id column name to Sub_code.
-ALTER TABLE Course RENAME COLUMN Course_id TO Sub_code;
-ALTER TABLE Prerequired RENAME COLUMN Course_id TO Sub_code;
-ALTER TABLE Teaches RENAME COLUMN Course_id TO Sub_code;
-
-p) Change the data type of name to varchar2 (50).
-ALTER TABLE instructor Alter COLUMN name varchar2(50);
-
-q) Change the name of Instructor table to Faculty_Info.
-ALTER TABLE instructor RENAME TO Faculty_Info;
-
-r) Change the Column size of Course_id in Course table from 10 to 8.
-ALTER TABLE course Alter COLUMN course_id varchar2(8);
 
 s) Delete the content of the table Prereq along with its description.
 drop prereq;
