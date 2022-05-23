@@ -79,10 +79,7 @@ sp_rename 'dbo.Instructor','Faculty_Info';
 r) Change the Column size of Course_id in Course table from 10 to 8.
 ALTER TABLE course Alter COLUMN course_id varchar(8);
 
-
-
 on testing
-
 
 s) Delete the content of the table Prereq along with its description.
 drop prereq;
