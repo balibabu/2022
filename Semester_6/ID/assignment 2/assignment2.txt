@@ -82,7 +82,7 @@ ALTER TABLE course Alter COLUMN course_id varchar(8);
 on testing
 
 s) Delete the content of the table Prereq along with its description.
-drop prereq;
+truncate prereq;
 
 t) Change the column name ‘Building’ of Department table by new column name ‘Builder’.
 ALTER TABLE Department RENAME COLUMN Building TO Builder;
