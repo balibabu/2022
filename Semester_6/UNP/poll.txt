@@ -1,0 +1,34 @@
+poll function ..
+
+#include <poll.h>
+int poll(struct pollfd *fdarry, unsigned long nfds, int timeout);
+
+
+struct pollfd{
+int fd;
+short events;
+short revents;
+}
+
+pollfd -> it is a pointer to the first element of the  array of structure
+that specify the condition to tested 
+
+1.POLLIN
+2.POLLRDNORM
+3.POLLRDBAND
+4.POLLPRI
+
+5.POLLOUT
+6.POLLWRNORM
+7.POLLWRBAND
+
+8.POLLERR
+9.POLLHUP
+10.POLLNVAL
+
+1-4: deals with input
+
+5-7: 
+
+
+

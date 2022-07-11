@@ -1,0 +1,24 @@
+update in instructor table of assignment 1
+INSERT INTO Faculty_Info(ID,Name,department,salary,date_of_join) values(22222,'Einstein','Physics',95000,'2022-05-16');
+
+
+--c) Display the ID, Name & Department of the instructor drawing the highest salary.
+select id,name,Department,salary from Faculty_Info where salary=(select max(salary) from Faculty_Info);
+
+
+--d) Display the number of instructors available in Comp. Sci. Department.
+select count(department) from Faculty_Info where department='Comp.Sci.';
+
+--e) Display the total credits of all courses offered in Comp.Sci. Department.
+select sum(credits) from Course where department='Comp. Sci.';
+
+--f) Display the number of instructors and total salary drawn by Physics and Comp.Sci.departments.
+select count(name), sum(salary) from Faculty_Info where department in ('Physics', 'Comp.Sci.');
+
+--g) Display the total credits of Comp.Sci. and Biology departments from course table.
+select sum(credits) from Course where department in ('Comp. Sci.','Biology');
+
+--h) Display building wise total budget values.
+select building,sum(budget) as budget from Department group by Building;
+
+

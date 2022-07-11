@@ -1,0 +1,14 @@
+#include <signal.h>
+#include <poll.h>
+#include <sys/stropts.h>
+#define INFTIM -1
+#define MAXLINE 200
+
+void str_cli(FILE *fp,int fd){
+	struct pollfd
+}
+
+int main(){
+	int sockaddr;
+		
+}

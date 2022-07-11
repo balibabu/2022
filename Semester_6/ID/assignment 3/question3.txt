@@ -1,0 +1,46 @@
+3. Write the SQL Expressions for the following queries using suitable SQL scalar function.
+=======on testing=======
+a) Display your name with first letter being capital, where the entered name is in lower case.
+mysql cmd-> Select CONCAT(UPPER(SUBSTRING(name,1,1)),LOWER(SUBSTRING(name,2))) AS Name from table_name;
+
+b) Display 2nd- 6th characters of your name.
+mysql cmd-> Select CONCAT(SUBSTRING(name,2,1),LOWER(SUBSTRING(name,6,1))) from table_name;
+
+c) Find length of your full university name.
+	select len(university_name) from Table_name
+
+d) Display all the Instructor names with its first letter in upper case.
+mysql cmd-> Select CONCAT(UPPER(SUBSTRING(name,1,1)),LOWER(SUBSTRING(name,2))) AS Name from Instructor;
+
+e) List the department name of each instructor as a three letter code.
+-> mysql cmd-> Select SUBSTRING(name,1,3) AS Name from Instructor;
+
+f) Display the month of the joining of each instructor.
+-> SELECT EXTRACT(MONTH FROM date) from table_name
+
+j) Display the date of the next Friday after today's date.
+-> SELECT DATEADD(DAY, 13 - (@@DATEFIRST + (DATEPART(WEEKDAY,GETDATE()) %7)), GETDATE())
+
+k) Display the day of joining of each instructor.
+-> SELECT EXTRACT(Day FROM joining_date) from table_name
+
+l) Display the date corresponding to 15 days after today's date.
+-> declare @thirtydaysago datetime
+declare @now datetime
+set @now = getdate()
+set @thirtydaysago = dateadd(day,-30,@now)
+
+select @now, @thirtydaysago
+
+m) Display the value 94204.27348 truncated up to 2 digits after decimal point.
+DECLARE @i FLOAT = 6.677756
+
+SELECT 
+      ROUND(@i, 2)
+    , FORMAT(@i, 'N2')
+    , CAST(@i AS DECIMAL(18,2))
+    , SUBSTRING(PARSENAME(CAST(@i AS VARCHAR(10)), 1), PATINDEX('%.%', CAST(@i AS VARCHAR(10))) - 1, 2)
+    , FLOOR((@i - FLOOR(@i)) * 100)
+
+FORMAT ( value, format [, culture ] )
+https://stackoverflow.com/questions/16412231/how-to-get-2-digits-after-decimal-point-in-tsql
