@@ -18,7 +18,7 @@ public class JDBCProject {
 		
 		//inserting data in table
 //		insertion1(st);
-		insertion2(con);
+//		insertion2(con);
 		
 	}
 	
