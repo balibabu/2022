@@ -1,9 +1,3 @@
-1e
-create table branch(branch_code int primary key,
-branch_name varchar(10) not null, 
-branch_city varchar(20),check(branch_city in ('Delhi','Mumbai','Kolkata','Chennai')));
-exec sp_columns branch;
-
 1a
 create table customer (cust_no  varchar(5)  primary key,
 check(cust_no like 'c%') , 
@@ -11,11 +5,11 @@ name varchar(20) not null,phone_no int,
 city varchar(20) not null) ;
 
 exec sp_columns customer;
-1b
 
+1b
 create table Account(account_no varchar(5) primary key,
 check(account_no like 'A%'),
-Type varchar,check(Type in('SB','FD','CA')),
+Type varchar(2),check(Type in('SB','FD','CA')),
 balance int,check(balance<10000000),
 branch_code int,
 FOREIGN KEY (branch_code) REFERENCES Branch(branch_code));
@@ -42,6 +36,12 @@ FOREIGN KEY (branch_code) REFERENCES Branch(branch_code)
 );
 
 exec sp_columns LOAN;
+
+1e
+create table branch(branch_code int primary key,
+branch_name varchar(10) not null, 
+branch_city varchar(20),check(branch_city in ('Delhi','Mumbai','Kolkata','Chennai')));
+exec sp_columns branch;
 
 1f
 create table installment(
