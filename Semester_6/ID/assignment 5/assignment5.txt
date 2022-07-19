@@ -1,0 +1,12 @@
+1a
+select name,phone_no,cust_no from customer 
+where cust_no=(select cust_no from DEPOSITOR where account_no='A0004');
+
+1b
+select name from customer
+where cust_no not in (select cust_no from LOAN);
+
+1c
+select branch_city from branch
+where branch_code=(select branch_code from LOAN 
+where cust_no=(select cust_no from customer where name='ASLESHA TIWARI'));

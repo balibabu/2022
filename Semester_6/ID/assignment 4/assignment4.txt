@@ -1,22 +1,25 @@
 1a
-create table customer (cust_no  varchar(5)  primary key,
-check(cust_no like 'c%') , 
-name varchar(20) not null,phone_no int,
-city varchar(20) not null) ;
+create table customer (
+cust_no  varchar(5)  primary key,check(cust_no like 'c%') , 
+name varchar(30) not null,
+phone_no varchar(10),
+city varchar(30) not null) ;
 
 exec sp_columns customer;
 
 1b
-create table Account(account_no varchar(5) primary key,
+create table Account(
+account_no varchar(5) primary key,
 check(account_no like 'A%'),
 Type varchar(2),check(Type in('SB','FD','CA')),
 balance int,check(balance<10000000),
-branch_code int,
+branch_code varchar(5),
 FOREIGN KEY (branch_code) REFERENCES Branch(branch_code));
 
 
 1c
-create table DEPOSITOR(cust_no  varchar(5),
+create table DEPOSITOR(
+cust_no  varchar(5),
 account_no varchar(5),
 FOREIGN KEY (cust_no) REFERENCES Customer(cust_no),
 FOREIGN KEY (account_no) REFERENCES Account(account_no)
@@ -25,31 +28,27 @@ exec sp_columns DEPOSITOR;
 
 1d
 create table LOAN(
-loan_no varchar(5) primary key,
-check(loan_no like 'l%'),
+loan_no varchar(5) primary key,check(loan_no like 'l%'),
 cust_no  varchar(5),
-amount int,
-check(amount>1000),
-branch_code int,
+amount int,check(amount>1000),
+branch_code varchar(5),
 FOREIGN KEY (cust_no) REFERENCES Customer(cust_no),
 FOREIGN KEY (branch_code) REFERENCES Branch(branch_code)
 );
-
 exec sp_columns LOAN;
 
 1e
-create table branch(branch_code int primary key,
-branch_name varchar(10) not null, 
+create table branch(
+branch_code varchar(5) primary key,
+branch_name varchar(30) not null, 
 branch_city varchar(20),check(branch_city in ('Delhi','Mumbai','Kolkata','Chennai')));
 exec sp_columns branch;
 
 1f
 create table installment(
-inst_no int primary key,
-check(inst_no<=10),
+inst_no int primary key,check(inst_no<=10),
 loan_no varchar(5),
 FOREIGN KEY (loan_no) REFERENCES Loan(loan_no),
 inst_amount int not null
 );
-
 exec sp_columns installment;
