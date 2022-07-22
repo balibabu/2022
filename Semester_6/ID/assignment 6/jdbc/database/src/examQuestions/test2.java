@@ -20,7 +20,7 @@ public class test2 {
 
 		int[] newArr=solve(arr1,arr2,N);
 		for(int x:newArr) {
-			System.out.println(x);
+			System.out.print(x+" ");
 		}
 	}
 	public static HashMap<Integer, Integer> Counter(int[] array) {
@@ -57,3 +57,8 @@ public class test2 {
 		return newArr;
 	}
 }
+/*
+7
+1 1 5 3 1 3 5
+10 20 30 15 17 19 7
+*/
