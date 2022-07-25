@@ -44,3 +44,6 @@ SELECT
 
 FORMAT ( value, format [, culture ] )
 https://stackoverflow.com/questions/16412231/how-to-get-2-digits-after-decimal-point-in-tsql
+
+n)  select 5+pow(8,9)
+o) select sqrt(6464312);

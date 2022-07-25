@@ -10,3 +10,47 @@ where cust_no not in (select cust_no from LOAN);
 select branch_city from branch
 where branch_code=(select branch_code from LOAN 
 where cust_no=(select cust_no from customer where name='ASLESHA TIWARI'));
+
+--d) Find out the installment details of customer named “ANKITA SINGH”
+select * from installment where loan_no=(
+select loan_no from loan where cust_no=(
+select cust_no from customer where name='ANKITA SINGH'
+)
+);
+
+1e
+--Find out the branch name and branch city, in which “ABHIJIT MISHRA” has an account.
+select branch_name,branch_city from branch where
+branch_code in(select branch_code from Account where
+account_no in (select account_no from DEPOSITOR where
+cust_no=(select cust_no from customer where name='ABHIJIT MISHRA'))
+); 
+
+2
+--a) Find out the Loan_nos where the loans are taken from 
+--any branch with branch_city=MUMBAI.
+select loan.loan_no from loan inner join branch on branch.branch_code=loan.branch_code 
+where branch_city='mumbai';
+
+--b) Find the Type of the accounts available in any branch with branch_city =DELHI.
+select Account.Type from Account inner join branch on 
+branch.branch_code=Account.branch_code where branch_city='delhi';
+
+--c) Find out Installment_no and Installment amount of customer with Name= RAJ ANAND SINGH.
+select installment.inst_no, installment.inst_amount from installment 
+inner join loan on installment.loan_no=loan.loan_no 
+inner join customer on loan.cust_no=customer.cust_no 
+where customer.name='RAJ ANAND SINGH';
+
+--d) Find out the Name of the customers who have paid installments of Amount 50000 against his/her loan
+select customer.name from customer 
+inner join loan on customer.cust_no=loan.cust_no 
+inner join installment on loan.loan_no=installment.loan_no 
+where installment.inst_amount=50000;
+
+--e) Find out the Ph_no of customers having account at branch with Branch_name equal to SALTLAKE.
+select customer.phone_no from customer 
+inner join DEPOSITOR on customer.cust_no=DEPOSITOR.cust_no 
+inner join Account on Account.account_no=DEPOSITOR.account_no
+inner join branch on branch.branch_code=Account.branch_code
+where branch.branch_name='SALTLAKE branch';
