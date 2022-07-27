@@ -1,0 +1,1692 @@
+MINOR ASSIGNMENT-5
+UNIX Network Programming (CSE 4042)
+
+
+ 1. 1. Write a program to create two TCP clients and a TCP server. The server reads two numbers and sends
+one number to each client. All the clients will display the received number from the server. The server
+will display the port numbers of the connected clients.
+ 
+ #include<stdio.h>
+ #include<unistd.h>
+ #include<sys/types.h>
+ #include<sys/socket.h>
+ #include<netinet/in.h>
+ #include<arpa/inet.h>
+ #include<stdlib.h>
+ #include<string.h>
+ #include<signal.h>
+ #define PORT 12262
+ #define MAXLINE 200
+ void dg_echo(int sockfd,struct sockaddr* pcliaddr,socklen_t client){
+ int n; 
+ socklen_t len;
+
+ char buffer[MAXLINE];
+ memset(buffer,'\0', sizeof(buffer));
+ for(;;)
+    {
+    len = client;
+    n=recvfrom(sockfd,buffer,MAXLINE,0, pcliaddr,&len);
+    printf("message from client %s\n", buffer);
+    sendto(sockfd,buffer,n,0,pcliaddr,len);
+     }
+  }
+ int main()
+ {
+ int lisnfd, br;
+ socklen_t clilen,len;
+ struct sockaddr_in servaddr, cliaddr;
+ len=sizeof(servaddr);
+ servaddr.sin_family=AF_INET;
+ servaddr.sin_addr.s_addr=htonl(INADDR_ANY);
+ servaddr.sin_port=htons(PORT);
+ lisnfd=socket(AF_INET,SOCK_STREAM,0);
+if(lisnfd<0)
+   {
+    fprintf(stderr,"create error in socket\n");
+    return 1;
+    }
+    br=bind(lisnfd,(struct sockaddr *)&servaddr,sizeof(servaddr));
+    if(br==0)
+       {
+       printf("Bind success: with return value=%d\n", br);
+    
+         }
+         else{
+         printf("bind unsuccess:with return value=%d\n", br);
+    
+         printf("Retry........" );
+         exit(2);
+         }
+         
+         dg_echo(lisnfd,(struct sockaddr*)&cliaddr,sizeof(cliaddr));
+         printf("Connected client details.....\n");
+         printf("client port number=%d\n", ntohs(cliaddr.sin_port));
+         printf("client IP details =%s\n", inet_ntoa(cliaddr.sin_addr));
+         return 0;
+}
+
+
+2. [Exchange of numbers between two clients:] Create a program to connect two TCP clients to a
+TCP server. Both the clients read 10 numbers and send the numbers to the server. The server sends
+the received numbers to opposite clients. The clients will display the numbers.
+
+ #include<stdio.h>
+ #include<unistd.h>
+ #include<sys/types.h>
+ #include<sys/socket.h>
+ #include<netinet/in.h>
+ #include<arpa/inet.h>
+ #include<stdlib.h>
+ #include<string.h>
+ #include<signal.h>
+ #define PORT 12262
+ #define MAXLINE 200
+ void dg_echo(int sockfd,struct sockaddr* pcliaddr,socklen_t client){
+ int n; 
+ socklen_t len;
+
+ char buffer[MAXLINE];
+ memset(buffer,'\0', sizeof(buffer));
+ for(;;)
+    {
+    len = client;
+    n=recvfrom(sockfd,buffer,MAXLINE,0, pcliaddr,&len);
+    printf("message from client %s\n", buffer);
+    sendto(sockfd,buffer,n,0,pcliaddr,len);
+     }
+  }
+ void generate_random(int l, int r, int count)
+ int i;
+ for(i=0; i<10; i++){
+     int rand_num=(rand()%(r-l+1))+1;
+         printf(“%d”, rand_num);
+  }
+ int main()
+ {
+ int lisnfd, br;
+ socklen_t clilen,len;
+ struct sockaddr_in servaddr, cliaddr;
+ len=sizeof(servaddr);
+ servaddr.sin_family=AF_INET;
+ servaddr.sin_addr.s_addr=htonl(INADDR_ANY);
+ servaddr.sin_port=htons(PORT);
+ lisnfd=socket(AF_INET,SOCK_STREAM,0);
+if(lisnfd<0)
+   {
+    fprintf(stderr,"create error in socket\n");
+    return 1;
+    }
+    br=bind(lisnfd,(struct sockaddr *)&servaddr,sizeof(servaddr));
+    if(br==0)
+       {
+       printf("Bind success: with return value=%d\n", br);
+    
+         }
+         else{
+         printf("bind unsuccess:with return value=%d\n", br);
+    
+         printf("Retry........" );
+         exit(2);
+         }
+         
+         dg_echo(lisnfd,(struct sockaddr*)&cliaddr,sizeof(cliaddr));
+         printf("Connected client details.....\n");
+         printf("client port number=%d\n", ntohs(cliaddr.sin_port));
+         printf("client IP details =%s\n", inet_ntoa(cliaddr.sin_addr));
+         return 0;
+}
+
+3. A TCP server reads 10 pairs of numbers [scanf(“%d%d”,&x,&y);], where x is 1 or 2. If x is 1 then y
+is send to first client. If x is 2 y is send to second client. Both clients display the numbers, which they
+have got.
+
+Server program:-
+#include<stdio.h>
+#include<stdlib.h>
+#include<unistd.h>
+#include<sys/socket.h>
+#include<sys/types.h>
+#include<netinet/in.h>
+#include<arpa/inet.h>
+#include<string.h>
+
+int main(int argc, char *argv[]){
+    int sockfd, newsockfd, clilen;
+    char buffer[256];
+    struct sockaddr_in serv_addr, cli_adder;
+    int n;
+if(argc<2)
+{
+fprintf(stderr,"error!! no port provided\n");
+exit(1);
+}
+
+    sockfd=socket(AF_INET, SOCK_STREAM, 0);
+    if(sockfd<0){
+    error("error opening socket");
+    exit(1):
+    }
+    bzero((char *)&serv_addr, sizeof(serv_addr));
+    
+    serv_addr.sin_family=AF_INET;
+    serv_addr.sin_addr.s_addr=INADDR_ANY;
+    serv_addr.sin_port=htons(atoi(arg[1]));
+    
+    if(bind(sockfd, (struct sockaddr*) &serv_addr, sizeof(serv_addr))<0){
+    error("error on binding");
+    exit(1);
+    }
+    
+    listen(sockfd,5);
+
+while(1){
+    clilen=sizeof(cli_addr);
+    newsockfd= accept(sockfd,(struct sockaddr *)&cli_addr, &clilen);
+    
+    if(newsockfd<0){
+    error("error on accept");
+    exit(1);
+    }
+    printf("new client conn_ from port no %d and ip %s\n",ntohs(cli_addr.sin_port), inet_ntoa(cli_addr.sin_addr));
+    
+    bzero(buffer,256);
+    n=read(newsockfd,buffer,256);
+    
+    if(n<0){
+    error("error reading from socket");
+    exit(1);
+    }
+    
+    printf("here is the message:%s\n",buffer);
+    n=write(newsockfd,"i got the message");
+    
+    if(n<0){
+    error("error writing to socket");
+    exit(1);
+    }}
+    return 0;
+    }
+	
+Client program:-
+#include<stdio.h>
+#include<stdlib.h>
+#include<unistd.h>
+#include<sys/socket.h>
+#include<sys/types.h>
+#include<netinet/in.h>
+#include<arpa/inet.h>
+#include<string.h>
+
+int main(int argc, char *argv[]){
+    int sockfd, newsockfd, clilen;
+    char buffer[256];
+    struct sockaddr_in serv_addr, cli_adder;
+    int n;
+if(argc<2)
+{
+fprintf(stderr,"error!! no port provided\n");
+exit(1);
+}
+
+    sockfd=socket(AF_INET, SOCK_STREAM, 0);
+    if(sockfd<0){
+    error("error opening socket");
+    exit(1):
+    }
+    bzero((char *)&serv_addr, sizeof(serv_addr));
+    
+    serv_addr.sin_family=AF_INET;
+    serv_addr.sin_addr.s_addr=INADDR_ANY;
+    serv_addr.sin_port=htons(atoi(arg[1]));
+    
+    if(bind(sockfd, (struct sockaddr*) &serv_addr, sizeof(serv_addr))<0){
+    error("error on binding");
+    exit(1);
+    }
+    
+    listen(sockfd,5);
+
+while(1){
+    clilen=sizeof(cli_addr);
+    newsockfd= accept(sockfd,(struct sockaddr *)&cli_addr, &clilen);
+    
+    if(newsockfd<0){
+    error("error on accept");
+    exit(1);
+    }
+    printf("new client conn_ from port no %d and ip %s\n",ntohs(cli_addr.sin_port), inet_ntoa(cli_addr.sin_addr));
+    
+    bzero(buffer,256);
+    n=read(newsockfd,buffer,256);
+    
+    if(n<0){
+    error("error reading from socket");
+    exit(1);
+    }
+    
+    printf("here is the message:%s\n",buffer);
+    n=write(newsockfd,"i got the message");
+    
+    if(n<0){
+    error("error writing to socket");
+    exit(1);
+    }}
+    return 0;
+    }
+	
+4. Write a program to create two servers and one client. Initially the client reads two numbers. These
+are port numbers of the servers. Then the client reads 2 more numbers P and R. The number P is sent
+to one server and the number R is sent to another server.
+
+#include<stdio.h>
+#include<stdlib.h>
+#include<unistd.h>
+#include<sys/socket.h>
+#include<sys/types.h>
+#include<netinet/in.h>
+#include<arpa/inet.h>
+#include<string.h>
+
+int main(int argc, char *argv[]){
+    int sockfd, newsockfd, clilen;
+    char buffer[256];
+    struct sockaddr_in serv_addr, cli_adder;
+    int n;
+if(argc<2)
+{
+fprintf(stderr,"error!! no port provided\n");
+exit(1);
+}
+
+    sockfd=socket(AF_INET, SOCK_STREAM, 0);
+    if(sockfd<0){
+    error("error opening socket");
+    exit(1):
+    }
+    bzero((char *)&serv_addr, sizeof(serv_addr));
+    
+    serv_addr.sin_family=AF_INET;
+    serv_addr.sin_addr.s_addr=INADDR_ANY;
+    serv_addr.sin_port=htons(atoi(arg[1]));
+    
+    if(bind(sockfd, (struct sockaddr*) &serv_addr, sizeof(serv_addr))<0){
+    error("error on binding");
+    exit(1);
+    }
+    
+    listen(sockfd,5);
+
+while(1){
+    clilen=sizeof(cli_addr);
+    newsockfd= accept(sockfd,(struct sockaddr *)&cli_addr, &clilen);
+    
+    if(newsockfd<0){
+    error("error on accept");
+    exit(1);
+    }
+    printf("new client conn_ from port no %d and ip %s\n",ntohs(cli_addr.sin_port), inet_ntoa(cli_addr.sin_addr));
+    
+    bzero(buffer,256);
+    n=read(newsockfd,buffer,256);
+    x=read(inta[][]=new int[m][n]);
+                    
+{
+}
+
+    
+    if(n<0){
+    error("error reading from socket");
+    exit(1);
+    }
+    
+    printf("here is the message:%s\n",buffer);
+    n=write(newsockfd,"Addition of MxN matrix");
+    
+    if(n<0){
+    error("error writing to socket");
+    exit(1);
+    }}
+    return 0;
+    }
+	
+5. Write three TCP-socket programs: server.c, clienta.c, and clientb.c. These programs are executed
+from three different windows. The clienta reads array of n numbers and sends to server. The server
+will compute the number of occurrence of each element and sends to clientb. The clientb will add
+each occurrences and displays the sum.
+
+#include<stdio.h>
+#include<unistd.h>
+#include<sys/socket.h>
+#include<sys/types.h>
+#include<netinet/in.h>
+#include<netdb.h>
+
+#define SERV_TCP_PORT 1718
+int main(int argc, char**argv)
+{
+int sockfd,newsockfd,clength;
+struct sockaddr_in serv_addr;
+struct hostent *server;
+char buffer[4096];
+sockfd=socket(AF_INET,SOCK_STREAM,0);
+serv_addr.sin_family=AF_INET;
+serv_addr.sin_addr.s_addr=inet_addr("127.0.0.1");
+serv_addr.sin_port=htons("SERV_TCP_PORT");
+printf("\nREADY TO SEND DATA");
+connect(sockfd,(struct sockaddr*)&serv_addr,sizeof(serv_addr));
+printf("\nENTER THE MESSAGE TO SEND");
+r=0;
+n1=n;
+while(n>0){
+                       r=r*10+n%10;
+                    n=n/10;
+}
+If(r==n1)
+      printf(“palindrome\n”);
+else
+      print(“not pallindrome”);
+printf("\nClient:-");
+fgets(buffer,4096,stdin);
+write(sockfd,buffer,4096);
+printf("\n");
+close(sockfd);
+return 0;
+}
+
+
+Assignment 6
+
+1. The below given code demonstrate to observe the list of descriptors opened for a process. The given
+code conatins a scanf(‘‘%d’’,&var) before the last return 0; statement. Compile and run
+the code, but do not supply any value for the scanf(). At this point the code will be a blocking read.
+Now open a new terminal and run the command ls /proc/PID/fd, where PID is the process ID
+of your process running and has printed on the blocking read terminal.
+#include<stdio.h>
+#include<unistd.h>
+#include<fcntl.h>
+#include<sys/types.h>
+#include<errno.h>
+int main()
+{
+int fd,var;
+printf("PID=%ld\n",(long)getpid());
+fd=open("read.c",O_RDONLY);
+fd=open("read.c",O_RDONLY);
+scanf("%d",&var);
+return 0;
+}
+
+PROGRAM:-
+#include<stdio.h>
+#include<unistd.h>
+#include<fcntl.h>
+#include<sys/types.h>
+#include<errno.h>
+int main() {
+int fd, var;
+printf("PID=%1d\n"(long)getpid());
+fd=open("read.c"O_RDONLY);
+fd-open ("read.c",O_RDONLY);
+scanf("%d",&var);
+return 0;
+}
+
+
+2. Check out the list of file descriptors are opened for the following code snippet:
+int main(){
+int fd;
+FILE *myfp,*fp;
+printf("PID=%ld\n",(long)getpid());
+myfp=fopen("T1.dat","w");
+fp=fopen("T2.txt","w");
+if(myfp==NULL){
+return 1;
+}
+if(fp==NULL){
+return 2;
+}
+fd=open("T3.c",O_RDONLY);
+fd=open("T4.c",O_RDONLY);
+while(1);
+return 0;
+}
+
+PROGRAM:-
+#include<stdio.h>
+#include<unistd.hy
+#include<fentl.h>
+#include<sys/types.h›
+#include<errno.h›
+int main {
+int fd;
+FILE *myfp, *fp;
+brintf("PID=%ld\n(long) getpid());
+myfp=fopen("T1.dat,"w");
+fp=fopen ("T2. txt", "w");
+if (myfp==NULL){
+return 1;
+}}
+
+3. Lets us consider the below code segment to open a file using file pointer.
+FILE *myfp;
+myfp=fopen("Test.dat","w");
+if(myfp==NULL){
+return 1;
+}
+fprintd(myfp,"File pointer is a handle to handle");
+The FILE structure is allocated by fopen function call. The FILE structure contains a buffer and
+a file descriptor (Refer page number 122, section 4.6.2 of the USP text book for schematic diagram).
+Run the below code to display the file descriptor created internally because of the file pointer to
+perform IO. In some sense the file pointer is a handle to a handle. #include<stdio.h>
+int main()
+{
+FILE *myfp;
+int fd;
+myfp=fopen("Trial.txt","w");
+if(myfp==NULL){
+perror("Opening Error");
+return 1;
+}/* To get the file descriptor value */
+fd=fileno(myfp); /* fileno() is a library function */
+printf("File descriptor=%d\n",fd);
+return 0;
+}
+
+#include<stdio.h>
+#include<unistd.h>
+#include<fentl.h>
+#include<sys/types.h>
+#include<errno.h>
+int main(){
+FILE *myfp;
+int fd;
+myfp=fopen("Trial.txt","w");
+if(myfp==NULL){
+perror ("Opening Error") ;
+return 1;
+}
+fd-fileno (myfp);
+print ("File descriptor=%d\n",fd);
+return 0;
+}
+
+4. Findout the output of the given code snippet:
+int main()
+{
+printf("stdin file descriptor No.: %d\n",STDIN_FILENO);
+printf("stdout file descriptor No.: %d\n",STDIN_FILENO);
+printf("stderr file descriptor No.: %d\n",STDIN_FILENO);
+printf("Standard file descriptors using FILE pointers:\n");
+printf("stdin file descriptor No.: %d\n",fileno(stdin));
+printf("stdout file descriptor No.: %d\n",fileno(stdout));
+printf("stderr file descriptor No.: %d\n",fileno(stderr));
+return 0;
+}
+
+PROGRAM:-
+#include<stdio.h>
+#include<unistd.h>
+#include<fentl.h>
+#include<sys/types.h>
+#include<errno.h>
+int main(){
+printf("stdin file descriptor No.: %d\n", STDIN FILENO);
+printf("stdout file descriptor No.: %d\n", STDIN FILENO);
+printf("stderr file descriptor No.: %a \n",STDIN FILENO);
+printf("Standard file descriptors using FILE pointers: \n");
+printf("stdin file descriptor No.: %d\n",fileno(stdin));
+printf("stdout file descriptor No.: %d\n", fileno(stdout));
+printf("stderr file descriptor No.: %\n", fileno(stderr));
+return 0;
+}
+
+5. Consider the given code snippet to generate few fd values. If the fd numbers are printed only odd
+values, then state the answers for even fds. 2
+Department of Computer Science and Engineering
+Institute of Technical Education & Research, SOA, Deemed to be University
+int main()
+{
+FILE *myfp;
+int fd,i;
+for(i=0;i<16;i++){
+fd=open("anyExistingFilename",O_RDONLY);
+if(fd==-1){
+perror("Opening error");
+return 1;
+}
+printf("FD number=%d\n",fd);
+myfp=fopen("anyExistingFilewname","r");
+if(myfp==NULL){
+printf("File opening error");
+return 2;
+}}
+return 0;
+}
+
+PROGRAM:-
+#include<stdio.h>
+#include <sys/select.h>
+#include<sys/time.h>
+int main() { 
+fd_set r; 
+FD_ZERO(fd_set *fdset); 
+FD_SET(int fd, fd_set *fdset );
+FD_SET(int fd, fd_set *fdset); 
+FD_SET(int fd, fd_set *fdset ); 
+select(int maxfdf 1,fd_set *readset, fd_set *writeset, fd_set 
+*exceptset, NULL); 
+return 0; 
+}
+
+6. Consider the given code snippet to generate few fd values values. If the fd values are printed only
+even values, then state the answers about odd number fds. #include<stdio.h>
+#include<unistd.h>
+#include<fcntl.h>
+#include<sys/stat.h>
+int main()
+{
+FILE *myfp;
+int fd,i;
+for(i=0;i<16;i++){
+myfp=fopen("anyExistingFilewname","r");
+if(myfp==NULL){
+printf("File opening error");
+return 1;
+}
+fd=open("anyExistingFilename",O_RDONLY);
+if(fd==-1){
+perror("Opening error");
+return 2;
+}
+printf("FD number=%d\n",fd);
+}
+return 0;
+}
+
+PROGRAM:-
+#include<stdio.h>
+#include <sys/select.h>
+#include<sys/time.h>
+fd_set w;
+struct timeval timeout; 
+timeout.tv_sec = 5; 
+timeout.tv_usec = 0;
+FD_ZERO(fd_set *fdset); 
+FD_SET(int fd, fd_set *fdset );
+FD_SET(int fd, fd_set *fdset); 
+FD_SET(int fd, fd_set *fdset ); 
+select(int maxfdf 1,fd_set *readset, fd_set *writeset, fd_set 
+*exceptset, const struct timeval*timeout); 
+return 0; 
+}
+
+
+7. Fillout the parameters of select function call to monitor any of the descriptors in the set {1, 4, 5} are
+ready for reading and the select call will return when one of the specified descriptors is ready for IO
+( i.e. a case of wait forever).
+#include<stdio.h>
+#include<sys/select.h>
+#include<sys/time.h>
+int main()
+{
+fd_set r;
+FD_ZERO(______);
+FD_SET(___, ___);
+FD_SET(___, ___);
+FD_SET(___, ___);
+select(___, ____, ____, ____, NULL);
+return 0;
+}
+
+PROGRAM:-
+#include<stdio.h>
+#include <sys/select.h>
+#include<sys/time.h>
+int main(){ 
+fd_set e;
+struct timeval timeout; 
+timeout.tv_sec = 5; 
+timeout.tv_usec = 0;
+FD_ZERO(fd_set *fdset); 
+FD_SET(int fd, fd_set *fdset );
+FD_SET(int fd, fd_set *fdset); 
+FD_SET(int fd, fd_set *fdset ); 
+select(int maxfdf 1,fd_set *readset, fd_set *writeset, fd_set 
+*exceptset, const struct timeval*timeout); 
+return 0; 
+}
+
+8. Fillout the parameters of select function call to monitor any of the descriptors in the set {2, 7, 10} are
+ready for writing and the select call will wait up to a fixed amount of time - return when one of the
+descriptor is ready for IO, but do not wait beyond the number of seconds and microseconds specified
+in the timeval structure pointed to by the timeout argument.
+#include<stdio.h>
+#include<sys/select.h>
+#include<sys/time.h>
+int main()
+{
+fd_set w;
+struct timeval timeout;
+timeout.tv_sec = ___;
+timeout.tv_usec = ___;
+FD_ZERO(______);
+FD_SET(___, ___);
+FD_SET(___, ___);
+FD_SET(___, ___);
+select(___, ____, ____, ____, ___);
+return 0;
+}
+
+PROGRAM:-
+#include<stdio.h>
+#include <sys/select.h>
+#include<sys/time.h>
+int main(){ 
+fd_set e;
+struct timeval timeout; 
+timeout.tv_sec = 5; 
+void timeout.tv_usec = 0;
+FD_ZERO(fd_set *fdset); 
+FD_CLR(int fd, fd_set *fdset);
+return 0; 
+}
+
+9. Fillout the parameters of select function call to monitor any of the descriptors in the set {1, 4} have an
+exception condition pending and the select call will not wait at all -return immediately after checking
+the descriptors. To specify this, the timeout argument must point to a timeval structure and the
+timer value (the number of seconds and microseconds specified by the structure) must be 0. #include<stdio.h>
+#include<sys/select.h>
+#include<sys/time.h>
+int main()
+{
+fd_set e;
+struct timeval timeout;
+timeout.tv_sec = ___;
+timeout.tv_usec = ___;
+FD_ZERO(______);
+FD_SET(___, ___);
+FD_SET(___, ___);
+select(___, ____, ____, ____, ___);
+return 0;
+}
+
+PROGRAM:-
+#include<stdio.h>
+#include <sys/select.h>
+#include<sys/time.h>
+int main(){ 
+fd_set e;
+struct timeval timeout; 
+timeout.tv_sec = 5;
+void timeout.tv_usec = 0;
+FD_ZERO(fd_set *fdset); 
+FD_ISSET(int fd, fd_set *fdset);
+FD_CLR(int fd, fd_set *fdset);
+return 0; 
+}
+
+
+10. Write the required statements using the macro FD CLR( , ) for the code 
+snippet given in question no.-8 to turn off the bit for fds 4 and 5 in the fdset
+PROGRAM:-
+#include<sys/select.h>
+#include<sys/time.h>
+#include<stdio.h>
+#include<unistd.h>
+#include<sys/types.h>
+int main(void){
+int retval;
+fd_set rfds;
+struct timeval tv;
+FD_ZERO(&rfds);
+FD_SET(0, &rfds);
+tv.tv_sec = 10;
+tv.tv_usec =20;
+retval = select(1, &rfds, NULL, NULL, &tv);
+if (retval == -1)
+{
+ perror("select()");
+ }
+ else if (retval){
+ printf("Data onto the monitor.\n");
+ if(FD_ISSET(0, &rfds))
+ printf("FD_0 is set");
+ }
+ else
+ {
+ printf("Time Out: Data Not Ready.\n");
+ }
+ return 0;
+}
+
+
+11. Write the required statements using the macro FD ISSET( , ) after select call for the code
+snippet given in question no.-9 to test, is the bit for fds 2 and 7 on (i.e. set or not) in the fdset.
+PROGRAM:-
+#include<sys/select.h>
+#include<sys/time.h>
+#include<stdio.h>
+#include<unistd.h>
+#include<sys/types.h>
+#inlude<string.h>
+int main(){
+int fd, ret, pollret, timeout;
+char buf[20];
+struct pollfd fds[1]; 
+while(1){
+fds[0].fd=0;
+fds[0].events=0;
+fds[0].events|=POLLIN;
+timeout=6000;
+pollret =poll (fds, 1, timeout);
+if(pollret=-0){
+printf("timeout :No fd ready\n");
+}
+else{
+menset ((void*)buf,0,11) ;
+ret=read(fd, (void*)buf, 10) ;
+printf("ret-%d\n,ret);
+if(ret!=1)
+printf ("buf=%s" , buf);
+}}
+ return 0;
+ }
+ 
+ 
+ 
+ 
+Assignment 7
+
+1. Write an UDP client server program to send a string ITER from client to server. The server will display the 
+string as well as the client protocol address.
+PROGRAM:-
+#include<stdio.h> 
+#include<stdlib.h> 
+#include<unistd.h> 
+#include<sys/socket.h> 
+#include<sys/types.h> 
+#include<netinet/in.h> 
+#include<arpa/inet.h> 
+#include<netdb.h> 
+#include<string.h> 
+#define MAXLINE 200
+#define PORT 33456
+void dg_echo(int listenfd,struct sockaddr* pcliaddr,socklen_t client){
+int n; 
+socklen_t len;
+struct sockaddr_in *sa; 
+char buffer[MAXLINE];
+memset(buffer,'\0',sizeof(buffer)); 
+len=client;
+n=recvfrom(listenfd,buffer,MAXLINE,0,pcliaddr,&len); 
+sa=(struct sockaddr_in *)pcliaddr;
+printf("Connected client details.\n");
+printf("client port number=%d\n",ntohs(sa->sin_port)); 
+printf("client ip details=%s\n",inet_ntoa(sa->sin_addr)); 
+printf("message from client=%s\n",buffer);
+}
+int main(){
+int lisnfd,br; socklen_t clilen,len;
+struct sockaddr_in servaddr,cliaddr; 
+len=sizeof(servaddr); 
+servaddr.sin_family=AF_INET;
+servaddr.sin_addr.s_addr=htonl(INADDR_ANY); 
+servaddr.sin_port=htons(PORT); 
+lisnfd=socket(AF_INET, SOCK_DGRAM,0); 
+if(lisnfd<0){
+fprintf(stderr,"create error in socket\n");
+return 1;
+}
+br=bind(lisnfd,(struct sockaddr *)&servaddr, sizeof(servaddr)); 
+if(br==0){
+printf("bind success: with return value=%d\n",br);
+}
+else{
+printf("binf unsuccess: with return value=%d\n",br); 
+printf("Retry different port\n");
+exit(2);
+}
+printf("bind success: with return value=%d\n",br);
+printf("binf unsuccess: with return value=%d\n",br); printf("Retry
+ different port\n");
+exit(2);
+dg_echo(lisnfd,(struct sockaddr*)&cliaddr,sizeof(cliaddr)); 
+return 0;
+}
+Client:
+#include<stdio.h> 
+#include<stdlib.h>
+#include<unistd.h> 
+#include<sys/socket.h> 
+#include<sys/types.h> 
+#include<netinet/in.h> 
+#include<arpa/inet.h> 
+#include<netdb.h> 
+#include<string.h> 
+#define MAXLINE 200
+void dg_cli(FILE *FP, int sockfd,const struct sockaddr* pservaddr, 
+socklen_t servlen){
+int n;
+char sendline[MAXLINE], recvline[MAXLINE+1]; 
+memset(sendline, '\0', sizeof(sendline)); 
+memset(recvline, '\0', sizeof(recvline)); 
+sendto(sockfd, "ITER",4,0,pservaddr,servlen);
+}
+int main(int argc,char *argv[]){
+int sockfd;
+struct sockaddr_in servaddr,cliaddr; 
+socklen_t len;
+len=sizeof(struct sockaddr_in); 
+if(argc!=3){
+fprintf(stderr,"usage <IP> <PORT>\n");
+return 1;
+}
+servaddr.sin_family=AF_INET; 
+servaddr.sin_addr.s_addr=inet_addr(argv[1]); 
+servaddr.sin_port=htons(atoi(argv[2])); 
+sockfd=socket(AF_INET,SOCK_DGRAM,0); 
+if(sockfd>0){
+fprintf(stderr,"socket create success.\n");
+}
+else{
+fprintf(stderr,"create an error.\n");
+return 1;
+}
+printf("Connected server details.\n");
+printf("Server port number=%d\n",ntohs(servaddr.sin_port));
+printf("Server ip details=%s\n",inet_ntoa(servaddr.sin_addr)); 
+dg_cli(stdin,sockfd,(struct sockaddr*)&servaddr,sizeof(servaddr)); 
+return 0;
+}
+
+2. The client reads a number and sends to the server. The server doubles it and sends back to the client. 2. The 
+client reads a number and sends to the server. The server doubles it and sends back to the client.
+
+PROGRAM:-
+Server:-
+#include<stdio.h> 
+#include<sys/socket.h> 
+#include<sys/types.h> 
+#include<sys/socket.h> 
+#include<netinet/in.h> 
+#include<arpa/inet.h> 
+#include<stdlib.h> 
+#include<string.h> 
+#include<time.h>
+#define PORT 33456
+#define MAXLINE 200
+void dg_echo(int listenfd,struct sockaddr* pcliaddr,socklen_t client){
+int n;
+socklen_t len;
+struct sockaddr_in *sa;
+char buffer[MAXLINE]; memset(buffer,'\0',sizeof(buffer));
+for(;;){
+len=client; 
+n=recvfrom(listenfd,buffer,MAXLINE,0,pcliaddr,&len);
+sa=(struct sockaddr_in*)pcliaddr; printf("connected client details.
+\n");
+printf("client port no.=%d\n",ntohs(sa->sin_port)); printf("client IP 
+details=%s\n",inet_ntoa(sa->sin_addr)); printf("message from 
+client=%s\n",buffer);
+int x=atoi(buffer); x=x*2;
+sprintf(buffer, "%d",x); sendto(listenfd,buffer,n,0,pcliaddr,len);
+}}
+int main(){
+int lisnfd,br; 
+socklen_t clilen,len;
+struct sockaddr_in servaddr,cliaddr; len=sizeof(servaddr); 
+servaddr.sin_family=AF_INET; servaddr.sin_addr.s_addr=htonl(INADDR_ANY); 
+servaddr.sin_port=htons(PORT); lisnfd=socket(AF_INET,SOCK_DGRAM,0); 
+if(lisnfd<0){
+fprintf(stderr,"create error in socket\n"); 
+return 1;
+}
+br=bind(lisnfd,(struct sockaddr*)&servaddr,sizeof(servaddr)); 
+if(br==0){
+printf("bind success : with return value = %d\n",br);
+}
+else{
+printf("bind unsuccess : with return value = %d\n",br);
+printf("retry. ");
+exit(2);
+}
+dg_echo(lisnfd,(struct sockaddr*)&cliaddr,sizeof(cliaddr));
+return 0;
+}
+Client:-
+#include<stdio.h> 
+#include<sys/socket.h> 
+#include<sys/types.h> 
+#include<sys/socket.h> 
+#include<netinet/in.h> 
+#include<arpa/inet.h> 
+#include<stdlib.h> 
+#include<string.h> 
+#include<time.h>
+#define MAXLINE 200
+void dg_cli(FILE *FP,int sockfd,const struct sockaddr* pservaddr,socklen_t 
+servlen){
+int n;
+char sendline[MAXLINE], recvline[MAXLINE+1]; 
+memset(sendline,'\0',sizeof(sendline)); 
+memset(recvline,'\0',sizeof(recvline));
+while(1){
+printf("enter the number");
+fgets(sendline,200,stdin); 
+sendto(sockfd,sendline,strlen(sendline),0,pservaddr,servlen); 
+printf("sent data.\n");
+n=recvfrom(sockfd,recvline,MAXLINE,0,pservaddr,&servlen); 
+recvline[n]='\0';
+printf("The number doubled = "); 
+fputs(recvline,stdout); printf("\n");
+}}
+int main(int argc,char *argv[]){
+int sockfd;
+struct sockaddr_in servaddr,cliaddr; 
+socklen_t len;
+len=sizeof(struct sockaddr_in); 
+if(argc!=3)
+{
+fprintf(stderr,"usage <IP> <PORT> \n"); 
+return 1;
+}
+servaddr.sin_family=AF_INET; servaddr.sin_addr.s_addr=inet_addr(argv[1]); 
+servaddr.sin_port=htons(atoi(argv[2])); 
+sockfd=socket(AF_INET,SOCK_DGRAM,0);
+if(sockfd>0){
+fprintf(stderr,"success in socket creation \n");
+}
+else{
+fprintf(stderr ,"create an error\n");
+return 1 ;
+}
+printf("connected server details.\n");
+printf("server port number %d\n",ntohs(servaddr.sin_port));
+dg_cli(stdin,sockfd,(struct sockaddr*)&servaddr,sizeof(servaddr));
+return 0;
+}
+
+3. The client reads a line of words separated by white space and sends to the server. The server transforms the line 
+of words in which the words appear in the reverse order and sends back to the client. The client displays original 
+line and the received line from the server. For example Alice likes Bob transforms to Bob likes Alice. Implement a 
+function for reversing the words in a string s. 
+PROGRAM:-
+Server:-
+#include<stdio.h> 
+#include<sys/socket.h> 
+#include<sys/types.h> 
+#include<sys/socket.h> 
+#include<netinet/in.h> 
+#include<arpa/inet.h> 
+#include<stdlib.h> 
+#include<string.h> 
+#include<time.h> 
+#define PORT 33456
+#define MAXLINE 200
+void reverse(char* begin, char* end){
+char temp;
+while (begin < end) { 
+temp = *begin;
+*begin++ = *end;
+*end-- = temp;
+}}
+void reverseWords(char* s)
+{
+char* word_begin = s;
+while (*temp) {
+temp++;
+if (*temp == '\0') { 
+reverse(word_begin, temp - 1);
+}
+else if (*temp == ' ') { 
+reverse(word_begin, temp - 1); 
+word_begin = temp + 1;
+}}
+reverse(s, temp - 1);
+}
+void dg_echo(int listenfd,struct sockaddr* pcliaddr,socklen_t client){
+int n; 
+socklen_t len;
+struct sockaddr_in *sa;
+char buffer[MAXLINE]; memset(buffer,'\0',sizeof(buffer));
+for(;;){
+len=client; n=recvfrom(listenfd,buffer,MAXLINE,0,pcliaddr,&len);
+sa=(struct sockaddr_in*)pcliaddr;
+printf("connected client details. \n");
+printf("client port no.=%d\n",ntohs(sa->sin_port)); printf("client IP 
+details=%s\n",inet_ntoa(sa->sin_addr)); printf("message from 
+client=%s\n",buffer); reverseWords(buffer);
+
+sendto(listenfd,buffer,n,0,pcliaddr,len);
+}}
+int main(){
+int lisnfd,br; socklen_t clilen,len;
+struct sockaddr_in servaddr,cliaddr; len=sizeof(servaddr); 
+servaddr.sin_family=AF_INET; servaddr.sin_addr.s_addr=htonl(INADDR_ANY); 
+servaddr.sin_port=htons(PORT); lisnfd=socket(AF_INET,SOCK_DGRAM,0);
+if(lisnfd<0){
+fprintf(stderr,"create error in socket\n"); return 1;
+}
+br=bind(lisnfd,(struct sockaddr*)&servaddr,sizeof(servaddr)); 
+if(br==0){
+printf("bind success : with return value = %d\n",br);
+}
+else{
+printf("bind unsuccess : with return value = %d\n",br); 
+printf("retry. ");
+exit(2);
+}
+dg_echo(lisnfd,(struct sockaddr*)&cliaddr,sizeof(cliaddr)); 
+return 0;
+}
+Client:-
+#include<stdio.h> 
+#include<sys/socket.h> 
+#include<sys/types.h> 
+#include<sys/socket.h> 
+#include<netinet/in.h> 
+#include<arpa/inet.h> 
+#include<stdlib.h> 
+#include<string.h> 
+#include<time.h>
+#define MAXLINE 200
+void dg_cli(FILE *FP,int sockfd,const struct sockaddr* pservaddr,socklen_t 
+servlen){
+int n;
+char sendline[MAXLINE], recvline[MAXLINE+1]; 
+memset(sendline,'\0',sizeof(sendline)); 
+memset(recvline,'\0',sizeof(recvline));
+while(1){
+printf("\nenter the string.");
+fgets(sendline,200,stdin); 
+sendto(sockfd,sendline,strlen(sendline),0,pservaddr,servlen); 
+printf("sent data.\n");
+n=recvfrom(sockfd,recvline,MAXLINE,0,pservaddr,&servlen); 
+recvline[n]='\0';
+printf("Reverse String : \n"); 
+fputs(recvline,stdout);
+}}int main(int argc,char *argv[]){
+int sockfd;
+
+struct sockaddr_in servaddr,cliaddr; 
+socklen_t len;
+len=sizeof(struct sockaddr_in);
+if(argc!=3){
+fprintf(stderr,"usage <IP> <PORT> \n"); 
+return 1;
+}
+servaddr.sin_family=AF_INET; 
+servaddr.sin_addr.s_addr=inet_addr(argv[1]); 
+servaddr.sin_port=htons(atoi(argv[2])); 
+sockfd=socket(AF_INET,SOCK_DGRAM,0);
+if(sockfd>0){
+fprintf(stderr,"success in socket creation \n");
+}
+else
+fprintf(stderr ,"create an error\n");
+return 1 ;
+}
+printf("connected server details.\n");
+printf("server port number %d\n",ntohs(servaddr.sin_port));
+dg_cli(stdin,sockfd,(struct sockaddr*)&servaddr,sizeof(servaddr)); 
+return 0;
+}
+4. The client writes a datagram of length 0 and sends to the server. Verify that it is acceptable and display the 
+same in server side.
+PROGRAM:-
+Server:-
+#include<stdio.h> 
+#include<stdlib.h> 
+#include<unistd.h> 
+#include<sys/socket.h> 
+#include<sys/types.h> 
+#include<netinet/in.h> 
+#include<arpa/inet.h> 
+#include<netdb.h> 
+#include<string.h> 
+#define MAXLINE 200
+#define PORT 33456
+void dg_echo(int listenfd,struct sockaddr* pcliaddr,socklen_t client){
+int n; socklen_t len;
+struct sockaddr_in *sa; char buffer[MAXLINE];
+memset(buffer,'\0',sizeof(buffer)); len=client;
+n=recvfrom(listenfd,buffer,MAXLINE,0,pcliaddr,&len); sa=(struct 
+sockaddr_in *)pcliaddr;
+printf("Connected client details. \n");
+printf("client port number=%d\n",ntohs(sa->sin_port));
+printf("client ip details=%s\n",inet_ntoa(sa->sin_addr)); 
+printf("message from client=%s\n",buffer);
+}
+int main(){
+int lisnfd,br; socklen_t clilen,len;
+struct sockaddr_in servaddr,cliaddr; len=sizeof(servaddr); 
+servaddr.sin_family=AF_INET;
+servaddr.sin_addr.s_addr=htonl(INADDR_ANY);
+servaddr.sin_port=htons(PORT); lisnfd=socket(AF_INET, SOCK_DGRAM,0); 
+if(lisnfd<0){
+fprintf(stderr,"create error in socket\n"); 
+return 1;
+}
+br=bind(lisnfd,(struct sockaddr *)&servaddr, sizeof(servaddr)); 
+if(br==0){
+printf("bind success: with return value=%d\n",br);
+}
+else{
+printf("binf unsuccess: with return value=%d\n",br); printf("Retry 
+different port\n");
+exit(2);
+}
+dg_echo(lisnfd,(struct sockaddr*)&cliaddr,sizeof(cliaddr)); 
+return 0;
+}
+Client:
+#include<stdio.h> 
+#include<stdlib.h> 
+#include<unistd.h> 
+#include<sys/socket.h> 
+#include<sys/types.h> 
+#include<netinet/in.h> 
+#include<arpa/inet.h> 
+#include<netdb.h> 
+#include<string.h> 
+#define MAXLINE 200
+void dg_cli(FILE *FP, int sockfd,const struct sockaddr* pservaddr, 
+socklen_t servlen){
+int n;
+char sendline[MAXLINE], recvline[MAXLINE+1]; 
+memset(sendline, '\0', sizeof(sendline)); 
+memset(recvline, '\0', sizeof(recvline));
+sendto(sockfd, "",4,0,pservaddr,servlen);
+}
+int main(int argc,char *argv[]){
+int sockfd;
+struct sockaddr_in servaddr,cliaddr; socklen_t len;
+len=sizeof(struct sockaddr_in); 
+if(argc!=3){
+fprintf(stderr,"usage <IP> <PORT>\n"); 
+return 1;
+}
+servaddr.sin_family=AF_INET; 
+servaddr.sin_addr.s_addr=inet_addr(argv[1]); 
+servaddr.sin_port=htons(atoi(argv[2])); 
+sockfd=socket(AF_INET,SOCK_DGRAM,0);
+if(sockfd>0){
+fprintf(stderr,"socket create success\n");
+}
+else
+{
+fprintf(stderr,"create an error \n");
+return 1;
+}
+printf("Connected server details\n");
+printf("Server port number=%d\n",ntohs(servaddr.sin_port)); 
+printf("Server ip details=%s\n",inet_ntoa(servaddr.sin_addr)); 
+dg_cli(stdin,sockfd,(struct sockaddr*)&servaddr,sizeof(servaddr)); 
+return 0;
+}
+5. Let an UDP client sends a number to UDP server and the server finds the sum of the digits of the received 
+number. The server sends the sum to the client. You have to modify the 4th parameter, from, argument to 
+recvfrom is a null pointer and the corresponding 5th parameter, addrlen, also to be a null pointer to indicate that 
+the server is not interested to know the protocol address of who send the data.
+PROGRAM:-
+Server:-
+#include<stdio.h> 
+#include<sys/socket.h> 
+#include<sys/types.h> 
+#include<sys/socket.h> 
+#include<netinet/in.h> 
+#include<arpa/inet.h> 
+#include<stdlib.h> 
+#include<string.h> 
+#include<time.h>
+#define PORT 33456
+#define MAXLINE 200 
+int getSum(int n)
+{
+int sum;
+for (sum = 0; n > 0; sum += n % 10, n /= 10);
+return sum;
+}
+void dg_echo(int listenfd,struct sockaddr* pcliaddr,socklen_t client)
+{
+int n; 
+socklen_t len;
+struct sockaddr_in *sa;
+char buffer[MAXLINE]; memset(buffer,'\0',sizeof(buffer)); 
+for(;;){
+len=client; 
+n=recvfrom(listenfd,buffer,MAXLINE,0,pcliaddr,&len);
+sa=(struct sockaddr_in*)pcliaddr; printf("connected client details.\n");
+printf("client port no.=%d\n",ntohs(sa->sin_port)); printf("client IP 
+details=%s\n",inet_ntoa(sa->sin_addr)); 
+printf("message from client=%s\n",buffer);
+int x=atoi(buffer); int sum=getSum(x);
+sprintf(buffer, "%d",sum); sendto(listenfd,buffer,n,0,pcliaddr,len);
+}}
+int main(){
+int lisnfd,br; 
+socklen_t clilen,len;
+struct sockaddr_in servaddr,cliaddr; len=sizeof(servaddr); 
+servaddr.sin_family=AF_INET; servaddr.sin_addr.s_addr=htonl(INADDR_ANY);
+servaddr.sin_port=htons(PORT); lisnfd=socket(AF_INET,SOCK_DGRAM,0);
+if(lisnfd<0){
+fprintf(stderr,"create error in socket\n"); return 1;
+}
+br=bind(lisnfd,(struct sockaddr*)&servaddr,sizeof(servaddr)); 
+if(br==0){
+printf("bind success : with return value = %d\n",br);
+}
+else
+{
+printf("bind unsuccess : with return value = %d\n",br); printf("retry. ");
+exit(2);
+}
+dg_echo(lisnfd,(struct sockaddr*)&cliaddr,sizeof(cliaddr));
+return 0;
+}
+Client: 
+#include<stdio.h> 
+#include<sys/socket.h> 
+#include<sys/types.h> 
+#include<sys/socket.h> 
+#include<netinet/in.h> 
+#include<arpa/inet.h> 
+#include<stdlib.h> 
+#include<string.h> 
+#include<time.h> 
+#define MAXLINE 200 
+void dg_cli(FILE *FP,int sockfd,const struct sockaddr* pservaddr,socklen_t 
+servlen) 
+{ 
+int n; 
+char sendline[MAXLINE], recvline[MAXLINE+1]; 
+memset(sendline,'\0',sizeof(sendline)); 
+memset(recvline,'\0',sizeof(recvline)); 
+while(1) 
+{ 
+printf("enter the number"); 
+fgets(sendline,200,stdin); 
+sendto(sockfd,sendline,strlen(sendline),0,pservaddr,servlen); 
+printf("sent data.\n"); 
+n=recvfrom(sockfd,recvline,MAXLINE,0,NULL,NULL); 
+recvline[n]='\0'; 
+printf("The sum of digits of the number = "); 
+fputs(recvline,stdout); 
+printf("\n"); 
+} 
+} 
+int main(int argc,char *argv[]) 
+{ 
+int sockfd; 
+struct sockaddr_in servaddr,cliaddr; 
+socklen_t len; 
+len=sizeof(struct sockaddr_in);
+if(argc!=3) 
+{ 
+fprintf(stderr,"usage <IP> <PORT> \n"); 
+return 1; 
+} 
+servaddr.sin_family=AF_INET; 
+servaddr.sin_addr.s_addr=inet_addr(argv[1]); 
+servaddr.sin_port=htons(atoi(argv[2])); 
+sockfd=socket(AF_INET,SOCK_DGRAM,0); 
+if(sockfd>0) 
+{ 
+fprintf(stderr,"success in socket creation \n"); 
+} 
+else { 
+fprintf(stderr ,"create an error \n");return 1 ; 
+} 
+printf("connected server details.\n"); 
+printf("server port number %d\n",ntohs(servaddr.sin_port)); 
+dg_cli(stdin,sockfd,(struct sockaddr*)&servaddr,sizeof(servaddr)); 
+return 0; 
+}
+6. Design a TCP client server for sending and receiving a string application using recvfrom and sendto instead 
+of read and write. State the reason, why normally it is not required to do this in TCP client server application.
+PROGRAM:- Server:-
+#include<stdio.h> 
+#include<sys/socket.h> 
+#include<sys/types.h> 
+#include<netinet/in.h> 
+#include<arpa/inet.h> 
+#include<stdlib.h> 
+#include<string.h> 
+#include<time.h>
+int main(int argc, char **argv){ 
+int listenfd,connfd,len;
+struct sockaddr_in servaddr,clientaddr; 
+char buff[1024];
+time_t ticks;
+len=sizeof(struct sockaddr_in); 
+listenfd=socket(AF_INET, SOCK_STREAM,0); 
+servaddr.sin_family=AF_INET; 
+servaddr.sin_addr.s_addr=htonl(INADDR_ANY); 
+servaddr.sin_port=htons(0);
+bind(listenfd,(struct sockaddr *)&servaddr,sizeof(servaddr)); 
+getsockname(listenfd,(struct sockaddr *)&servaddr,&len);
+printf("after bind ephermeral 
+port=%d\n",(int)ntohs(servaddr.sin_port)); 
+listen(listenfd,5);
+connfd=accept(listenfd,(struct sockaddr *)&clientaddr, &len); 
+ticks=time(NULL); 
+snprintf(buff,sizeof(buff),"%s\r\n",ctime(&ticks)); 
+sendto(connfd,buff,strlen(buff),0,NULL,NULL); 
+sendto(connfd,"ITER",4,0,NULL,NULL);
+close(connfd);
+}
+Client:-
+#include<stdio.h> 
+#include<sys/socket.h> 
+#include<sys/types.h> 
+#include<netinet/in.h> 
+#include<arpa/inet.h> 
+#include<stdlib.h> 
+#include<string.h> 
+#include<time.h>
+int main(int argc, char *argv[]){ 
+int sockfd,n,conn,len;
+char recvline[1024];
+struct sockaddr_in servaddr; 
+len=sizeof(struct sockaddr_in); 
+sockfd=socket(AF_INET, SOCK_STREAM, 0); 
+servaddr.sin_family=AF_INET;
+servaddr.sin_addr.s_addr=inet_addr(argv[1]); 
+servaddr.sin_port=htons(atoi(argv[2])); 
+connect(sockfd,(struct sockaddr *)&servaddr,sizeof(servaddr));
+n=recvfrom(sockfd,recvline,1024,0,NULL,NULL);
+printf("%d\n",n); recvline[n]=0; printf("%s",recvline); 
+close(sockfd);
+}
+7. The client reads 10 numbers and sends them to the server one by one. The server displays them one after 
+another.
+PROGRAM:-
+Server:-
+#include<stdio.h> 
+#include<sys/socket.h> 
+#include<sys/types.h> 
+#include<sys/socket.h> 
+#include<netinet/in.h> 
+#include<arpa/inet.h> 
+#include<stdlib.h> 
+#include<string.h> 
+#include<time.h> 
+#define PORT 33456
+#define MAXLINE 200
+void dg_echo(int listenfd,struct sockaddr* pcliaddr,socklen_t 
+client){
+int n; socklen_t len;
+struct sockaddr_in *sa;
+char buffer[MAXLINE]; memset(buffer,'\0',sizeof(buffer));
+for(;;){
+len=client; 
+n=recvfrom(listenfd,buffer,MAXLINE,0,pcliaddr,&len);
+sa=(struct sockaddr_in*)pcliaddr; 
+printf("message from client=%s\n",buffer);
+}}
+int main(){
+int lisnfd,br; 
+socklen_t clilen,len;
+struct sockaddr_in servaddr,cliaddr; len=sizeof(servaddr); 
+servaddr.sin_family=AF_INET; 
+servaddr.sin_addr.s_addr=htonl(INADDR_ANY); 
+servaddr.sin_port=htons(PORT);
+lisnfd=socket(AF_INET,SOCK_DGRAM,0);
+if(lisnfd<0){
+fprintf(stderr,"create error in socket\n"); return 1;
+}
+br=bind(lisnfd,(struct 
+sockaddr*)&servaddr,sizeof(servaddr));if(br==0){
+printf("bind success : with return value = %d\n",br);
+}
+else{
+printf("bind unsuccess : with return value = %d\n",br); 
+printf("retry.");
+exit(2);
+}
+dg_echo(lisnfd,(struct sockaddr*)&cliaddr,sizeof(cliaddr));
+return 0;
+}
+Client:-
+#include<stdio.h> 
+#include<sys/socket.h> 
+#include<sys/types.h> 
+#include<sys/socket.h> 
+#include<netinet/in.h> 
+#include<arpa/inet.h> 
+#include<stdlib.h> 
+#include<string.h> 
+#include<time.h>
+#define MAXLINE 200
+void dg_cli(FILE *FP,int sockfd,const struct sockaddr* 
+pservaddr,socklen_t servlen){
+int n;
+char sendline[MAXLINE], recvline[MAXLINE+1]; 
+memset(sendline,'\0',sizeof(sendline)); 
+memset(recvline,'\0',sizeof(recvline));
+for(int i=0;i<10;i++){
+printf("enter the number ");
+fgets(sendline,200,stdin); 
+sendto(sockfd,sendline,strlen(sendline),0,pservaddr,servlen);
+printf("Data sent successfully\n");
+}}
+int main(int argc,char *argv[]){
+int sockfd;
+struct sockaddr_in servaddr,cliaddr; 
+socklen_t len;
+len=sizeof(struct sockaddr_in); 
+if(argc!=3){
+fprintf(stderr,"usage <IP> <PORT> \n");return 1;
+}
+servaddr.sin_family=AF_INET; 
+servaddr.sin_addr.s_addr=inet_addr(argv[1]); 
+servaddr.sin_port=htons(atoi(argv[2])); 
+sockfd=socket(AF_INET,SOCK_DGRAM,0);
+if(sockfd>0){
+fprintf(stderr,"success in socket creation \n"); 
+}
+else{
+fprintf(stderr ,"create an error\n");return 1 ;
+}
+printf("connected server details.\n");
+printf("server port number %d\n",ntohs(servaddr.sin_port));
+dg_cli(stdin,sockfd,(struct sockaddr*)&servaddr,sizeof(servaddr)); 
+return 0;
+}
+8. Design an UDP server program and two UDP client programs. The first client will send a string in small case 
+to the server. The server will display the string along with the clients who sends the data. Now the server will 
+send the upper case of the string to the second client and the second client will display the string forwarded from 
+the server.
+PROGRAM:-
+Server:-
+#include<stdio.h> 
+#include<stdlib.h> 
+#include<unistd.h> 
+#include<sys/socket.h> 
+#include<sys/types.h> 
+#include<netinet/in.h> 
+#include<arpa/inet.h> 
+#include<netdb.h> 
+#include<string.h> 
+#define MAXLINE 200
+#define PORT 33456
+void dg_echo(int listenfd,struct sockaddr* pcliaddr,socklen_t client){
+int n;
+socklen_t len;
+struct sockaddr_in *sa; char buffer[MAXLINE];
+memset(buffer,'\0',sizeof(buffer)); 
+len=client;
+n=recvfrom(listenfd,buffer,MAXLINE,0,pcliaddr,&len); sa=(struct sockaddr_in 
+*)pcliaddr;
+printf("Connected client details.\n");
+printf("client port number=%d\n",ntohs(sa->sin_port)); printf("client ip 
+details=%s\n",inet_ntoa(sa->sin_addr)); 
+printf("message from client=%s\n",buffer);
+}
+int main(){
+int lisnfd,br; socklen_t clilen,len;
+struct sockaddr_in servaddr,cliaddr; len=sizeof(servaddr); 
+servaddr.sin_family=AF_INET;
+servaddr.sin_addr.s_addr=htonl(INADDR_ANY); servaddr.sin_port=htons(PORT); 
+lisnfd=socket(AF_INET, SOCK_DGRAM,0); 
+if(lisnfd<0){
+fprintf(stderr,"create error in socket\n"); return 1;
+}
+br=bind(lisnfd,(struct sockaddr *)&servaddr, sizeof(servaddr)); 
+if(br==0){
+printf("bind success: with return value=%d\n",br);
+}
+else{
+printf("binf unsuccess: with return value=%d\n",br); printf("Retry 
+different port\n");exit(2);
+}
+dg_echo(lisnfd,(struct sockaddr*)&cliaddr,sizeof(cliaddr)); return 0;
+}
+Client:-
+#include<stdio.h> 
+#include<stdlib.h> 
+#include<unistd.h> 
+#include<sys/socket.h> 
+#include<sys/types.h> 
+#include<netinet/in.h> 
+#include<arpa/inet.h> 
+#include<netdb.h> 
+#include<string.h> 
+#define MAXLINE 200
+void dg_cli(FILE *FP, int sockfd,const struct sockaddr* pservaddr, 
+socklen_t servlen){
+int n;
+char sendline[MAXLINE], recvline[MAXLINE+1]; memset(sendline, '\0', 
+sizeof(sendline)); memset(recvline, '\0', sizeof(recvline)); sendto(sockfd, 
+"COVID-19",10,0,pservaddr,servlen);
+}
+int main(int argc,char *argv[]){
+int sockfd;
+struct sockaddr_in servaddr,cliaddr; socklen_t len;
+len=sizeof(struct sockaddr_in); 
+if(argc!=3){
+fprintf(stderr,"usage <IP> <PORT>\n"); return 1;
+}
+servaddr.sin_family=AF_INET; servaddr.sin_addr.s_addr=inet_addr(argv[1]); 
+servaddr.sin_port=htons(atoi(argv[2])); 
+sockfd=socket(AF_INET,SOCK_DGRAM,0);
+if(sockfd>0)
+{
+fprintf(stderr,"socket create success\n");
+}
+else{
+fprintf(stderr,"create an error.\ n");return 1;
+}
+printf("Connected server details.\n");
+printf("Server port number=%d\n",ntohs(servaddr.sin_port)); 
+printf("Server ip details=%s\n",inet_ntoa(servaddr.sin_addr)); 
+dg_cli(stdin,sockfd,(struct sockaddr*)&servaddr,sizeof(servaddr));return 0;
+}
+14. [UDP Echo Server:] Design an UDP client/server program for an echo server that performs the following
+steps: [ Refer chapter 8.3 of your text book]
+i) The client reads a line of text from its standard input and write the line to the server. 
+ii) The server reads the line from its network input and echoes the line back to the client. 
+iii) The client reads the echoed line and prints its on its standard output. 
+iv) The server will keep a track of the client number and the protocol address that is connected to the server.
+v) The UDP echo server will use a user-defined function, datagram echo(), to echo lines on a datagram socket. 
+vi) The client will also call a user-defined function, datagram client(), to send line of text to the server. 
+vii) In the client side, the function datagram client() must meet the given four steps such as (1) read a line from the 
+standard input using fgets, (2) send the line to the server using sendto, (3) read back the server’s echo using 
+recvfrom and (4) print the echoed line to the standard output using fputs respectively in a loop till you type EOF 
+character (CTRL+D), which terminate the clien
+PROGRAM:-
+Server:-
+#include<stdio.h> 
+#include<sys/socket.h> 
+#include<sys/types.h> 
+#include<sys/socket.h> 
+#include<netinet/in.h> 
+#include<arpa/inet.h> 
+#include<stdlib.h> 
+#include<string.h> 
+#include<time.h>
+#define PORT 33456
+#define MAXLINE 200
+void datagram_echo(int listenfd,struct sockaddr* pcliaddr,socklen_t 
+client){
+int n; socklen_t len;
+struct sockaddr_in *sa;
+char buffer[MAXLINE]; memset(buffer,'\0',sizeof(buffer));
+for(;;){
+len=client; n=recvfrom(listenfd,buffer,MAXLINE,0,pcliaddr,&len);
+sa=(struct sockaddr_in*)pcliaddr; printf("connected client details.
+\n");
+printf("client port no.=%d\n",ntohs(sa->sin_port)); printf("client IP 
+details=%s\n",inet_ntoa(sa->sin_addr)); printf("message from 
+client=%s\n",buffer);
+sendto(listenfd,buffer,n,0,pcliaddr,len);
+}}
+int main(){
+int lisnfd,br; socklen_t clilen,len;
+struct sockaddr_in servaddr,cliaddr; len=sizeof(servaddr);
+servaddr.sin_family=AF_INET; servaddr.sin_addr.s_addr=htonl(INADDR_ANY); 
+servaddr.sin_port=htons(PORT); 
+lisnfd=socket(AF_INET,SOCK_DGRAM,0);
+if(lisnfd<0){
+fprintf(stderr,"create error in socket\n"); 
+return 1;
+}
+br=bind(lisnfd,(struct sockaddr*)&servaddr,sizeof(servaddr));
+if(br==0){
+printf("bind success : with return value = %d\n",br);
+}
+else{
+printf("bind unsuccess : with return value = %d\n",br); printf("retry.");
+exit(2);
+}
+datagram_echo(lisnfd,(struct sockaddr*)&cliaddr,sizeof(cliaddr)); 
+return 0;
+}Client:-
+#include<stdio.h> 
+#include<sys/socket.h> 
+#include<sys/types.h> 
+#include<sys/socket.h> 
+#include<netinet/in.h> 
+#include<arpa/inet.h> 
+#include<stdlib.h> 
+#include<string.h> 
+#include<time.h>
+#define MAXLINE 200
+void datagram_client(FILE *FP,int sockfd,const struct sockaddr* 
+pservaddr,socklen_t servlen){
+int n;
+char sendline[MAXLINE], recvline[MAXLINE+1]; 
+memset(sendline,'\0',sizeof(sendline)); 
+memset(recvline,'\0',sizeof(recvline));
+while(1){
+printf("enter the message");
+fgets(sendline,200,stdin); 
+sendto(sockfd,sendline,strlen(sendline),0,pservaddr,servlen); 
+printf("sent data\n");
+n=recvfrom(sockfd,recvline,MAXLINE,0,pservaddr,&servlen); 
+recvline[n]='\0';
+printf("Message from server : "); fputs(recvline,stdout);
+}}
+int main(int argc,char *argv[]){
+int sockfd;
+struct sockaddr_in servaddr,cliaddr; 
+socklen_t len;
+len=sizeof(struct sockaddr_in); 
+if(argc!=3){
+fprintf(stderr,"usage <IP> <PORT> \n"); return 1;
+}
+servaddr.sin_family=AF_INET; servaddr.sin_addr.s_addr=inet_addr(argv[1]); 
+servaddr.sin_port=htons(atoi(argv[2])); 
+sockfd=socket(AF_INET,SOCK_DGRAM,0);
+if(sockfd>0){
+fprintf(stderr,"success in socket creation \n");
+}
+else{
+fprintf(stderr ,"create an error \n");return 1 ;
+}
+printf("connected server details. \n");
+printf("server port number %d\n",ntohs(servaddr.sin_port));
+datagram_client(stdin,sockfd,(struct sockaddr*)&servaddr,sizeof(servaddr)); 
+return 0;
+}
