@@ -1,0 +1,144 @@
+1) Consider the following pseudocode
+   Which of the following options indicate the output of this pseudocode
+   FUNCTION PrintSqr
+   FOR I=1 TO 10 STEP 2 DO
+   Print 'SQAURE OF ',I,' IS ',CALCULATE(I*I)
+	END FOR
+   END FUNCTION
+   
+   PROGRAM START
+   CALL PrintSqr
+   STOP
+
+options:
+A) SQUARE OF 1 IS 1
+SQUARE OF 3 IS 9
+SQUARE OF 5 IS 25
+SQUARE OF 7 IS 49
+SQUARE OF 9 IS 81
+
+B) SQUARE OF 1 IS 1
+SQUARE OF 2 IS 4
+SQUARE OF 3 IS 9
+SQUARE OF 4 IS 16 
+and so on upto
+SQUARE OF 9 IS 81
+
+C) SQUARE OF 1 IS 1
+SQUARE OF 2 IS 4
+SQUARE OF 3 IS 9
+SQUARE OF 4 IS 16 
+and so on upto
+SQUARE OF 10 IS 100
+
+D)none of these
+
+Output : A
+
+		 
+2) What is the algorithm in the following pseudocode used for?
+   DECLARE CHARACTER C
+   DECLARE INTEGER num=0
+      DO
+   READ c
+   IF c IS '0' THROUGH '9' THEN
+   num++
+      END IF
+   UNTIL c IS '\n'
+	  PRINT num
+   END
+A)WORD COUNT
+B) CHARACTER COUNT
+C) To find new line character
+D) Counting digits
+Output : D
+
+3) What function will the following pseudocode perform?
+   Declare Function fun(integer n);
+   
+   Start 
+   Integer n,ans
+   Read n
+   ans=fun(n)
+    write ans
+   End 
+   Function fun(integer n)
+	start function
+   Integer a
+   if(n equals 0)
+	return 1
+   else
+	a=n*fun(n-1)
+	return a
+   End funtion
+A) calculate the square of a number
+B)calculate the square root of a number
+C) calculate the factorial of a number
+D) calculate the cube of a number
+Output : C
+
+4) What will be the o/p for below pseudocode for x=5 and y=6?
+   Read x and y
+   Set ans=0
+   While y!=0
+   ans=ans+x
+   y=y-1
+   EndWhile
+   Print ans  
+A)11
+B) 21
+C) 15
+D) 30
+Output : D
+
+
+5) What structure does the following pseudo code belong to?
+   get sequence 
+   get another sequence
+   iterate sequence 1
+    for each iteration of sequence 1 iterate sequence 2   
+A) decision
+B)sequence
+C) nested
+D) loop
+Output : C
+
+
+6) What will be the content of the stack after execution of the following code?
+   Create a stack
+   Push 1 on to the stack
+   Push 2 on to the stack
+   Push 3 on to the stack
+   pop from the stack
+   pop from the stack
+   Push 4 on to the stack
+   Push 5 on to the stack
+   Push 6 on to the stack
+   pop from the stack
+   Push 7 on to the stack
+   pop from the stack
+   pop from the stack
+   pop from the stack 
+A) 1
+B) 1,7
+C) 7
+D)1,6,7
+Output : A
+
+
+7) What will be the complexity for the below pseudocode?
+1.SET t = 0
+2.READ Array A [0…9]
+3.FOR each element e in A
+4.t = t + e
+5.ENDFOR
+6.PRINT t
+ 
+Select an option
+A.Order of 10
+B.Order of 1
+C.Order of 100
+D. Order of 2
+ ANSWER- OPTION (A)
+
+

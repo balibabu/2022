@@ -1,0 +1,54 @@
+1)
+There are 3 towers. Tower 1 has n disks, where n is a positive number. Tower 2 and 3 are empty.
+       2. The disks are increasingly placed in terms of size such that the smallest disk is on top and largest  disk is at bottom.
+       3. You are required to 
+       3.1. Print the instructions to move the disks.
+       3.2. from tower 1 to tower 2 using tower 3 
+       3.3. following the rules
+       3.3.1 move 1 disk at a time.
+       3.3.2 never place a smaller disk under a larger disk.
+       3.3.3 you can only move a disk at the top.
+
+-------------------------------------------------------------
+
+2) Given an array arr of N integers, WAP to print "True" if there is a triplet (a, b, c) that satisfies a^2 + b^2 = c^2 or b^2 + c^2 = a^2 or c^2 + a^2 = b^2, otherwise false.
+ip1:
+5
+3 1 4 6 5
+op1:
+True
+
+Explanation: a=3, b=4, and c=5 forms a pythagorean triplet.
+
+-----------------------------------------------------------------------
+
+3) WAP to count number of left adjacent values are equal upto that position. 
+For first position previous element is assumed to be 0.
+
+ip:
+6
+1 1 0 0 1 0
+op:
+0 1 0 2 0 0
+
+-------------------------------------------------
+
+4) WAP to find how many number of times 1digit number, 2 digits number, 3 digits numbers etc  are repeated in an array
+
+-----------------------------------------------------
+
+5) WAP to find sum of factorial of digits of prime number in an array
+input:
+6
+124 9 17 22 19 181
+output:
+5041 362881 40322
+
+Explanation: 
+from given array 17, 19, 181 are prime nos.
+17 = 1! + 7! = 1+5040 = 5041
+19 = 1! + 9! = 1+ 362880 = 362881
+181 = 1! + 8! + 1! = 1+40320+1 = 40322
+
+-----------------------------------------------------------
+

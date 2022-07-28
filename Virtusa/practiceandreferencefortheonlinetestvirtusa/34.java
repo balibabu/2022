@@ -1,0 +1,33 @@
+/*
+34) Reverse String Word Wise.
+
+Write a function to reverse a string word wise.
+
+Input Specification
+Input 1 : String
+
+Output Specification
+Return the reversed that the last word input string should come at the first position of the output and second word at the second position and so on individual w as should remain as it
+
+Example 1:
+input1: Welcome to me
+Output: me to Welcome
+*/
+
+import java.util.Scanner;
+class Demo
+{
+	static String reverse(String s)
+	{
+		// write code here
+		
+	}
+	
+	public static void main(String args[])
+	{
+		Scanner sc = new Scanner(System.in);
+		String s = sc.nextLine();
+		String result = reverse(s);
+		System.out.println(result);
+	}
+}

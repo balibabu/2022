@@ -1,0 +1,207 @@
+1) Which of the following statements about anbstract class is true?
+A) An abstract class can have only abstract methods
+B) An abstract class can have only concrete methods
+C) An abstract class must have at one abstract method
+D) An abstract class can have both abstract and concrete methods
+Output : D
+
+2) Which of the following options is the correct signature of the hashCode() method?
+A) public int hashCode()
+B) public String hashCode()
+C) public Object hashCode()
+D) public void hashCode()
+Output : A
+
+3) In MySQL, which of the following options about cross joins is correct?
+A) (M*N)row
+B) (M+N)row
+C) (M-N)row
+D) (M-N+1)row
+Output : A
+
+4) Which of the following contiguous memory allocation stragegies is generally considered faster in comparison with other stragegies?
+A) First-Fit
+B) Best-Fit
+C) Worst-Fit
+D) None
+Output : D
+
+5) How can you achieve the deep cloning of an object?
+A) By RandomAccess
+B) By Garbage Collection
+C) By Serialization
+D) NONE
+Output : C
+
+6) In the create table command, a column is indexed in MySQL when we decalre a column
+A) Primary Key
+B) Unqiue
+C) Index
+D) All of the given options
+Output : D
+
+7) Which of the following syntaxes would you use to create an object for the static nested class?
+A) OuterClass.StaticNestedClass nestedObject = new InnerClass.StaticNestedClass();
+B) OuterClass.StaticNestedClass nestedObject = new OuterClass.StaticNestedClass();
+C) A and B
+D) None
+Output : B
+
+8. Analyze the following sets:
+   A= {8,15,26,78,90,36,79,29}
+   B= {98,15,67,75,78,90,34,29}
+   Determine the value of A-B.
+A){15,90,78,29}
+B){8,26,36,79}
+C){98,67,75,34}
+D){90,79,34,36}
+OPTION: B
+
+9. Which of the following is a thread library?
+A) WIN32
+B) HP-UX
+C) IRIX
+D) Windows 2000
+OPTION: A
+
+10. Which of the following joins is/are available in MySQL?
+A) Outer join
+B) Cross join
+C) Union join
+D) All of the given options
+OPTION: B
+
+11. Which of the following is a default parameter mode in MySQL?
+A) INOUT
+B) IN
+C) OUT
+D) UNDEFINED
+OPTION: IN
+
+12. Which of the following would you use to instantiate a class in java?
+A. New Operator
+B. Class.forName(“name”)
+A) Only A
+B) Only B
+C) Both A and B
+D) None of the given options
+OPTION: B
+
+13. Boot control  block is the first block of boot partition and consists of information required by the system to boot an operating system from that disk. What is this boot control block called in new technology file System and unix file system?
+A) Master file table in NFTS ; boot block in UFS
+B) partition boot sector in UFS ; boot block in NTFS
+C) partition boot sector in NFTS ; superblock in UFS
+D) Partition boot sector in NTFS; boot block in UFS
+OPTION: D
+
+14. Exception And Error classes in java, extend which of the following classes directly?
+A) Object class
+B) NullPointerException
+C) Throwable class
+D) None of the given options
+OPTION: C
+
+15. Which protocol does WPA2 consider when the device does not support Cipher BlockChaining Message Authentication Code Protocol?
+A) Extensible Authentication Protocol
+B) Advanced Encryption Standard
+C) Temporal Key Integrity Protocol
+D) Rivers Cipher 4
+OPTION: B
+
+16. There are two classes: a base class and a derived class. The  default constructor of which class will be called first?
+A) Base class
+B) Derived class
+C) Depends on the situation
+D) A RuntimeException will occur
+OPTION: A
+
+17. Which of the following expressions is provided by ANSI subquery syntax?
+A) Operand comparison_operator ANY(Subquery)
+B) Operand comparison_operator IN(Subquery)
+C) None of the given options
+OPTION: A
+
+18.You are trying to execute a specific program.How will you refer to it when it is in the execution stage?
+A) Task
+B) Command
+C) Instruction
+D) Process
+OPTION: D
+
+19. Which of the following methods would you use to create a copy from an existing object?
+A) close()
+B) clone()
+C) slone()
+D) copyob()
+OPTION: B
+
+20. Which of the following syntax is/are desired when a subquery use multiple columns of data, with one or more rows?
+A) Row Subquery
+B) Tabular Subquery
+C) column Subquery
+D) Row Subquery and Tabular Subquery
+OPTION: C
+
+21. Which type of join needed when you wish to include rows that do not have matching values?
+A) Equi-join
+B) Natural join
+C) Outer join
+D) All the options
+OPTION: C
+
+22. Which of the following is an example of Scalar Subquery?
+A) SELECT * FROM Product1 p WHERE p.unit_price=(SELECT unit_price FROM product1)
+B) SELECT * FROM Product1 p WHERE p.unit_price=(SELECT Max( unit_price) FROM product1)
+C) SELECT * FROM Product1 p WHERE p.unit_price=unit_price FROM product1
+D) SELECT * FROM Product1 p WHERE p.unit_price!=unit_price 
+OPTION: 
+
+23.What is the correct syntax for EXISTS expression?
+A) WHERE EXISTS(Subquery)
+B) EXISTS (Subquery)
+C) EXISTS(Subquery) Where
+D) None of the given options
+OPTION: A
+
+24) Which of the following can be used at access modifiers of a method?
+A) Private
+B) Public
+C) Protected
+D) Default
+Output : All
+
+25) class Main{
+    public static void pupAge(){
+        int age=0;
+        age=age+7;
+        System.out.println("Puupy age is : "+age);
+    }
+    public static void main (String[] args) {
+        Main m=new Main();
+        Main.pupAge();
+    }
+}
+A) Puupy age is : 0
+B) Puupy age is : 7
+C) Puupy age is : 9
+D) Puupy age is : 8
+Output : B
+
+26) A full binary tree with 2n+1 nodes contains which of the following options?
+A) n leaf nodes
+B) n-1 leaf nodes
+C) n+1 leaf nodes
+D) n non-leaf nodes
+Output : D
+(n = non-leaf nodes = 7, Total nodes = 2n+1 = 2*7 + 1 = 15)
+
+27) What does the following function specify?
+DECREASE-KEY(S,x,k):"decreases value of element x's key to k. Assume k<=x's current key value"
+A) Min-priority queue
+B) Max-priority queue
+C) Avg-priority queue
+D) None
+Output : B
+
+
+

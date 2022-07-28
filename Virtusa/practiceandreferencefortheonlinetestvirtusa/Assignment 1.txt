@@ -1,0 +1,45 @@
+1) WAP to Reverse And Add A Number Until You Get A Palindrome 
+Take number from the user, reverse it and add it to itself. If the sum is not a palindrome then repeat the procedure until you get a palindrome.
+For example, If 7325 is input number, then
+7325 (Input Number) + 5237 (Reverse Of Input Number) = 12562
+12562 + 26521 = 39083
+39083 + 38093 = 77176
+77176 + 67177 = 144353
+144353 + 353441 = 497794 (Palindrome)
+In this particular case, we got a palindrome (497794) after 5th addition. This method gives palindrome in few steps for almost all of the integers.
+
+-------------------------------------------------------
+
+2) WAP to read a number, if number of digits is odd then print reverse of a number, else reverse first half and second half. Number should not contains 0's
+ip1: 1234567
+op1: 7654321
+
+ip2: 135792
+op2: 531297
+
+ip3: 135792
+op3: 531297
+
+--------------------------------------------------
+
+
+3) WAP to check whether a given number is an ugly number
+In number system, ugly numbers are positive numbers whose only prime factors are 2, 3 or 5. First 10 ugly numbers are 1, 2, 3, 4, 5, 6, 8, 9, 10, 12. By convention, 1 is included.
+Ugly numbers above 299 are 300, 320, 324, 360, 375 etc
+
+------------------------------------------------------------------
+
+4) WAP to find Nth ugly number
+
+---------------------------------------------------------
+
+5)WAP to delete a specified digit from a number and print highest number without that digit
+ip1:
+Enter the number
+539
+Enter the digit to be removed
+5
+op1:
+499
+
+--------------------------------------------------------------
