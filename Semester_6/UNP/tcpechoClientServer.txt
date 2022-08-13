@@ -1,0 +1,27 @@
+To write a program for TCP echo client server.
+
+ALGORITHM:
+
+SERVER:
+    STEP 1: Start
+    STEP 2: Declare the variables for the socket
+    STEP 3: Specify the family, protocol, IP address and port number
+    STEP 4: Create a socket using socket() function
+    STEP 5: Bind the IP address and Port number
+    STEP 6: Listen and accept the client’s request for the connection
+    STEP 7: Read the client’s message
+    STEP 8: Display the client’s message
+    STEP 9: Close the socket
+    STEP 10: Stop
+
+CLIENT:
+    STEP 1: Start
+    STEP 2: Declare the variables for the socket
+    STEP 3: Specify the family, protocol, IP address and port number
+    STEP 4: Create a socket using socket() function
+    STEP 5: Call the connect() function
+    STEP 6: Read the input message
+    STEP 7: Send the input message to the server
+    STEP 8: Display the server’s echo
+    STEP 9: Close the socket
+    STEP 10: Stop
