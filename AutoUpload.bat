@@ -2,14 +2,14 @@
 ECHO ====== SOA UNIVERSITY ======
 ECHO Auto pulling, adding, commiting and pushing on Github.
 ECHO ===================================================================================
-D:
-cd Works_Space\SOA_University
+
 git pull
 git status
 git add .
 git status
-git commit -m"auto uploaded by bat file"
+git commit -m"updating classwork contents"
 git push
+
 ECHO ===================================================================================
-ECHO Everything Done. Bye, Have a Good Day (•‿•)
+ECHO Don't Have a Good Day, Have a Great Day
 PAUSE
