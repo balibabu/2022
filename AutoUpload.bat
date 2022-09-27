@@ -3,18 +3,18 @@ ECHO ====== SOA UNIVERSITY ======
 ECHO Auto pulling, adding, commiting and pushing on Github.
 ECHO ===================================================================================
 
-ECHO ==> Pulling
+ECHO -------- Pulling --------
 git pull
 git status
 
-ECHO == Adding
+ECHO -------- Adding --------
 git add .
 git status
 
-ECHO == Commiting
+ECHO -------- Commiting --------
 git commit -m"updating classwork contents"
 
-ECHO ==> Pushing
+ECHO -------- Pushing --------
 git push
 
 ECHO ===================================================================================
