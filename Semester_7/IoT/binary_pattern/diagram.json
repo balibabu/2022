@@ -1,0 +1,44 @@
+{
+  "version": 1,
+  "author": "Balibabu",
+  "editor": "wokwi",
+  "parts": [
+    {
+      "type": "wokwi-pi-pico",
+      "id": "pico",
+      "top": 80.02,
+      "left": -206.64,
+      "rotate": 90,
+      "attrs": { "env": "micropython-20220117-v1.18" }
+    },
+    { "type": "wokwi-led", "id": "led1", "top": 0, "left": -255, "attrs": { "color": "#abff4f" } },
+    { "type": "wokwi-led", "id": "led2", "top": 0, "left": -225, "attrs": { "color": "#fee440" } },
+    { "type": "wokwi-led", "id": "led3", "top": 0, "left": -195, "attrs": { "color": "#90e0ef" } },
+    { "type": "wokwi-led", "id": "led4", "top": 0, "left": -165, "attrs": { "color": "#2667ff" } },
+    { "type": "wokwi-led", "id": "led5", "top": 0, "left": -135, "attrs": { "color": "cyan" } },
+    {
+      "type": "wokwi-resistor",
+      "id": "r1",
+      "top": 155.97,
+      "left": -72.07,
+      "rotate": 90,
+      "attrs": { "value": "225" }
+    },
+    { "type": "wokwi-led", "id": "led6", "top": 0, "left": -105, "attrs": { "color": "#f9dcc4" } }
+  ],
+  "connections": [
+    [ "led1:A", "pico:GP5", "red", [ "v46.7", "h92.41" ] ],
+    [ "led2:A", "pico:GP4", "red", [ "v41.36", "h72.01" ] ],
+    [ "led3:A", "pico:GP3", "red", [ "v36.03", "h51.61" ] ],
+    [ "led4:A", "pico:GP2", "red", [ "v30.7", "h31.21" ] ],
+    [ "led5:A", "pico:GP1", "red", [ "v26.03", "h20.41" ] ],
+    [ "led1:C", "led2:C", "blue", [ "v15", "h30" ] ],
+    [ "led3:C", "led2:C", "blue", [ "v15", "h30" ] ],
+    [ "led4:C", "led3:C", "blue", [ "v15", "h30" ] ],
+    [ "led5:C", "led6:C", "blue", [ "v15", "h30" ] ],
+    [ "led5:C", "led4:C", "blue", [ "v15", "h30" ] ],
+    [ "led6:A", "pico:GP0", "red", [ "v0" ] ],
+    [ "led6:C", "r1:1", "blue", [ "v14.7", "h24.01" ] ],
+    [ "r1:2", "pico:GND.8", "blue", [ "h-0.26", "v39.39", "h-56.67" ] ]
+  ]
+}
