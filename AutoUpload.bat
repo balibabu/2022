@@ -3,6 +3,9 @@ ECHO ====== SOA UNIVERSITY ======
 ECHO Auto pulling, adding, commiting and pushing on Github.
 ECHO ===================================================================================
 
+D:
+cd D:\Works_Space\SOA_University
+
 ECHO -------- Pulling --------
 git pull
 git status
