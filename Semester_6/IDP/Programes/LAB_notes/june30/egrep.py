@@ -1,3 +1,4 @@
+regex
 import sys, re
 regex = sys.argv[1]
 for line in sys.stdin:
