@@ -1,0 +1,7 @@
+1. Mosix Tutorial (configuration and installation)
+
+https://www.youtube.com/watch?v=u3F0YqpjeoA
+
+2. Install build 
+
+https://mosix.cs.huji.ac.il/txt_distributions.html

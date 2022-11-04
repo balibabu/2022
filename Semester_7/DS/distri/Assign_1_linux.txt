@@ -1,0 +1,113 @@
+
+basic network commands in linux system
+
+1.
+
+iter@iter-V30a-24IIL:~$ whoami
+iter
+
+
+2.iter@iter-V30a-24IIL:~$ who
+iter     :0           2022-10-06 10:08 (:0)
+
+
+3. iter@iter-V30a-24IIL:~$ hostname
+iter-V30a-24IIL
+
+4. 
+
+ter@iter-V30a-24IIL:~$ ifconfig
+
+Command 'ifconfig' not found, but can be installed with:
+
+sudo apt install net-tools
+5.
+
+iter@iter-V30a-24IIL:~$ ifconfig
+enp1s0: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500
+        inet 10.70.22.36  netmask 255.255.0.0  broadcast 10.70.255.255
+        inet6 fe80::50b2:b461:ac54:bc40  prefixlen 64  scopeid 0x20<link>
+        ether e4:a8:df:97:84:4d  txqueuelen 1000  (Ethernet)
+        RX packets 1198853  bytes 468921633 (468.9 MB)
+        RX errors 0  dropped 692  overruns 0  frame 0
+        TX packets 124917  bytes 14460031 (14.4 MB)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+
+lo: flags=73<UP,LOOPBACK,RUNNING>  mtu 65536
+        inet 127.0.0.1  netmask 255.0.0.0
+        inet6 ::1  prefixlen 128  scopeid 0x10<host>
+        loop  txqueuelen 1000  (Local Loopback)
+        RX packets 9180  bytes 722140 (722.1 KB)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 9180  bytes 722140 (722.1 KB)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+
+wlo1: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500
+        inet 100.109.94.194  netmask 255.255.128.0  broadcast 100.109.127.255
+        inet6 fe80::e6e6:2bea:a33c:1459  prefixlen 64  scopeid 0x20<link>
+        ether 0c:9a:3c:2f:50:b7  txqueuelen 1000  (Ethernet)
+        RX packets 200  bytes 19462 (19.4 KB)
+        RX errors 0  dropped 59  overruns 0  frame 0
+        TX packets 1007  bytes 151274 (151.2 KB)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+
+
+6. ps -ef
+UID          PID    PPID  C STIME TTY          TIME CMD
+root           1       0  0 10:07 ?        00:00:01 /sbin/init splash
+root           2       0  0 10:07 ?        00:00:00 [kthreadd]
+root           3       2  0 10:07 ?        00:00:00 [rcu_gp]
+root           4       2  0 10:07 ?        00:00:00 [rcu_par_gp]
+root           5       2  0 10:07 ?        00:00:00 [netns]
+root           7       2  0 10:07 ?        00:00:00 [kworker/0:0H-events_highpri]
+root           9       2  0 10:07 ?        00:00:00 [mm_percpu_wq]
+root          10       2  0 10:07 ?        00:00:00 [rcu_tasks_rude_]
+root          11       2  0 10:07 ?        00:00:00 [rcu_tasks_trace]
+root          12       2  0 10:07 ?        00:00:00 [ksoftirqd/0]
+
+
+
+7. ter@iter-V30a-24IIL:~$ ip route | grep default
+default via 10.70.0.1 dev enp1s0 proto dhcp metric 100 
+default via 100.109.0.1 dev wlo1 proto dhcp metric 20600 
+iter@iter-V30a-24IIL:~$ 
+
+
+/* *********************************** network in c/c++ *****************************/
+// gethostbyname()
+
+
+1 #include "unp.h"
+ 2 int
+ 3 main(int argc, char **argv)
+ 4 {
+ 5 char *ptr, **pptr;
+ 6 char str [INET_ADDRSTRLEN];
+ 7 struct hostent *hptr;
+ 8 while (--argc > 0) {
+ 9 ptr = *++argv;
+10 if ( (hptr = gethostbyname (ptr) ) == NULL) {
+11 err_msg ("gethostbyname error for host: %s: %s",
+12 ptr, hstrerror (h_errno) );
+13 continue;
+14 }
+15 printf ("official hostname: %s\n", hptr->h_name);
+16 for (pptr = hptr->h_aliases; *pptr ! = NULL; pptr++)
+17 printf ("\talias: %s\n", *pptr);
+18 switch (hptr->h_addrtype) {
+19 case AF_INET:
+20 pptr = hptr->h_addr_list;
+21 for ( ; *pptr != NULL; pptr++)
+22 printf ("\taddress: %s\n",
+23 Inet_ntop (hptr->h_addrtype, *pptr, str, sizeof
+(str)));
+24 break;
+25 default:
+26 err_ret ("unknown address type");
+27 break;
+28 }
+29 }
+30 exit(0);
+31 }
+
+
