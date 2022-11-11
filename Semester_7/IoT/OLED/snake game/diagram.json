@@ -1,0 +1,57 @@
+{
+    "version": 1,
+    "author": "Balibabu",
+    "editor": "wokwi",
+    "parts": [
+      {
+        "type": "wokwi-pi-pico",
+        "id": "pico",
+        "top": -60.68,
+        "left": -153.33,
+        "attrs": { "env": "micropython-20220117-v1.18" }
+      },
+      { "type": "board-ssd1306", "id": "oled1", "top": -51.02, "left": -27.62, "attrs": {} },
+      {
+        "type": "wokwi-pushbutton",
+        "id": "btn1",
+        "top": 49.96,
+        "left": -3.65,
+        "attrs": { "color": "red" }
+      },
+      {
+        "type": "wokwi-pushbutton",
+        "id": "btn2",
+        "top": 89.96,
+        "left": -50.31,
+        "attrs": { "color": "yellow" }
+      },
+      {
+        "type": "wokwi-pushbutton",
+        "id": "btn3",
+        "top": 86.62,
+        "left": 43.69,
+        "attrs": { "color": "blue" }
+      },
+      {
+        "type": "wokwi-pushbutton",
+        "id": "btn4",
+        "top": 125.29,
+        "left": -4.31,
+        "attrs": { "color": "green" }
+      }
+    ],
+    "connections": [
+      [ "pico:VSYS", "oled1:VCC", "red", [ "h12.68", "v-22.08", "h79.33" ] ],
+      [ "oled1:GND", "pico:GND.8", "black", [ "v-10.42", "h-66.2", "v22" ] ],
+      [ "btn2:1.r", "btn3:1.l", "red", [ "v0" ] ],
+      [ "btn1:1.r", "btn3:1.r", "red", [ "v-0.6", "h41.67" ] ],
+      [ "btn4:2.r", "btn3:1.r", "red", [ "h63.66", "v-58.27" ] ],
+      [ "pico:3V3", "btn1:1.l", "red", [ "h22.02", "v65.12" ] ],
+      [ "btn4:1.l", "pico:GP16", "green", [ "h-61.34", "v-5.27" ] ],
+      [ "btn1:2.l", "pico:GP17", "green", [ "h-55.33", "v44.4" ] ],
+      [ "pico:GP18", "btn2:2.l", "green", [ "h10.68", "v24.59" ] ],
+      [ "btn3:2.r", "pico:GP19", "green", [ "h10.33", "v-68.26", "h-187.33", "v44" ] ],
+      [ "oled1:SCL", "pico:GP1", "green", [ "v-18.58", "h-196.94", "v22.67" ] ],
+      [ "oled1:SDA", "pico:GP0", "green", [ "v-23.25", "h-200.77", "v17.33" ] ]
+    ]
+  }

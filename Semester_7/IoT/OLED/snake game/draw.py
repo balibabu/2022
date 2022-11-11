@@ -76,3 +76,52 @@ class Draw: # x and y axis
         self.line(p1,p2)
         self.line(p1,p3)
         self.line(p2,p3)
+
+
+
+'''
+# face()
+style()
+# face()
+# liveFace()
+
+obj=Draw()
+
+# obj.rectangle
+# obj.rectangle((12,12),(20,20))
+# obj.show()
+# obj.clear()
+# obj.rectangle((12,16),(20,16))
+
+
+# obj.point(0,0)
+# obj.point(127,63)   # 128*64
+# # obj.rectangle((35,30),(65,0))
+# obj.rectangleFill((12,12),(20,20))
+# obj.circle((64,32),20)
+# obj.line((20,20),(50,60))
+# obj.line((50,60),(20,20))
+# obj.line((0,20),(2,50))
+# obj.line((40,10),(50,20))
+# obj.line((100,10),(50,30))
+# obj.triangle((0,0),(30,0),(30,30))
+
+# obj.circleFill((64,32),15)
+
+# obj.rectangleFill((35,30),(65,0))
+
+# c=60
+# while True:
+#     # obj.line((0,c),(130,c))
+#     obj.show()
+#     obj.point(0,c)
+#     print(c)
+#     # obj.rectangle((c,c),(c+15,c+15))
+#     c+=1
+#     utime.sleep(1)
+#     # obj.clear()
+    
+
+obj.show()
+
+'''
