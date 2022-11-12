@@ -52,7 +52,7 @@ class Draw: # x and y axis
         self.line(point2,p3)
         self.line(point2,p4)
     
-    def circle(self,centre,radius):
+    def circleEquationTechnique(self,centre,radius):
         a,b=centre
         r=radius
         for x in range(a-r,a+r+1):
@@ -66,13 +66,26 @@ class Draw: # x and y axis
             self.oled.pixel(round(x),y,self.glow)
             x=a-math.sqrt(r*r-(y-b)*(y-b))
             self.oled.pixel(round(x),y,self.glow)
+    def circle(self,centre,radius):
+        tolerance=radius-radius//7
+        for x in range(centre[0]-radius,centre[0]+radius+1):
+            for y in range(centre[1]-radius,centre[1]+radius+1):
+                dis=pow(centre[0]-x,2)+pow(centre[1]-y,2)
+                radSq=pow(radius,2)
+                if  (dis-tolerance)<radSq<(dis+tolerance):
+                    self.oled.pixel(x,y,self.glow)
 
     def circleFill(self,centre,radius):
-        for i in range(radius+1):
-            self.circle(centre,i)
-            # self.rectangle((centre[0]-i//2,centre[1]-i//2),(centre[0]+i//2,centre[1]+i//2))
+        tolerance=radius-radius//7
+        for x in range(centre[0]-radius,centre[0]+radius+1):
+            for y in range(centre[1]-radius,centre[1]+radius+1):
+                dis=pow(centre[0]-x,2)+pow(centre[1]-y,2)
+                radSq=pow(radius,2)
+                if  (dis-tolerance)<radSq:
+                    self.oled.pixel(x,y,self.glow)
 
     def triangle(self,p1,p2,p3):
         self.line(p1,p2)
         self.line(p1,p3)
         self.line(p2,p3)
+

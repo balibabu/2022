@@ -12,9 +12,11 @@ class Snake:
 
     def intro():
         Snake.obj.oled.text("Game Starts",20,22)
-        Snake.obj.oled.text("in 5 seconds",15,38)
-        Snake.obj.show()
-        utime.sleep(5)
+        for i in range(5,0,-1):
+            Snake.obj.oled.text(f"in {i} seconds",15,38)
+            Snake.obj.show()
+            Snake.obj.oled.text(f"in {i} seconds",15,38,0)
+            utime.sleep(1)
         Snake.obj.clear()
         # borders
         for point in Snake.border:
@@ -89,10 +91,6 @@ class Snake:
 
         Snake.obj.clear()
         Snake.obj.oled.text("Game Over",20,22,0)
-        Snake.obj.oled.text(f"Your Score:{len(Snake.body)-20}",10,38,0)
+        Snake.obj.oled.text(f"Your Score:{len(Snake.body)-21}",10,38,0)
         Snake.obj.show()
         utime.sleep(10)
-            
-                
-
-

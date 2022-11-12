@@ -35,7 +35,7 @@ class Face:
             obj.glow=visible
             obj.rectangle((60,42),(68,42))
 
-        def talk(duration=0.2,times=1):
+        def talk(duration=0.5,times=1):
             obj.oled.text("Hi",0,0,1)
             for i in range(times):
                 mouthOpen(0)
@@ -45,11 +45,12 @@ class Face:
                 mouthClose(0)
                 mouthOpen()
                 obj.show()
+                utime.sleep(duration)
             obj.oled.text("Hi",0,0,0)
                 
 
 
-        def blink(duration=0.2,times=1):
+        def blink(duration=0.5,times=1):
             for i in range(times):
                 eyeOpen(0)
                 eyeClose()
@@ -58,6 +59,7 @@ class Face:
                 eyeClose(0)
                 eyeOpen()
                 obj.show()
+                utime.sleep(duration)
             
         head()
         eyeOpen()
@@ -65,7 +67,3 @@ class Face:
         for i in range(5):
             blink(times=3)
             talk(times=2)
-
-            
-
-        
