@@ -20,5 +20,15 @@ class Display:
             row+=8
         Display.oled.show()
     
-    def formatedDisplay(content):
-        pass
+    def formatedDisplay(content,color=1):
+        words=content.split()
+        toshow=''
+        row=0
+        for word in words:
+            if (len(toshow)+len(word))>16:
+                Display.oled.text(toshow,0,row,color)
+                row+=8
+                toshow=word+' '
+            else:
+                toshow+=word+' '
+        Display.oled.show()
