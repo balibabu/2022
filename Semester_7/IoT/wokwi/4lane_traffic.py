@@ -8,9 +8,9 @@ buzzer=Pin(17,Pin.OUT)
 redPins=[Pin(i,Pin.OUT) for i in range(1,13,3)]
 yellowPins=[Pin(i,Pin.OUT) for i in range(2,13,3)]
 greenPins=[Pin(i,Pin.OUT) for i in range(3,13,3)]
-greenTime=5
-redTime=3
-yellowTime=2
+greenTime=1
+redTime=1
+yellowTime=1
 pedestrianTime=4
 isButtonPressed=False
 
@@ -53,5 +53,6 @@ def cycle(pins):
         glowOne(yellowPins[i],yellowTime)
 
 interruptMetaData=None
+
 while True:
     cycle(pins)
