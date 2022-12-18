@@ -3,6 +3,10 @@ import utime
 import random
 
 class Car:
+    running=True
+    def stop(pin):
+        Pin(pin,Pin.IN).irq(handler=None)
+        Car.running=False
 
     def road(canva):
         for i in range(128):
@@ -19,7 +23,7 @@ class Car:
     def movingGrasses(canva,amount=5,level=0):
         gap=128//amount
         c=128
-        while True:
+        while Car.running:
             c-=2
             randomness=0#random.randrange(5)
             for i in range(amount):
@@ -68,6 +72,8 @@ class Car:
             canva.line((tpoint[0]-tsize+1,tpoint[1]-tsize),(tpoint[0]+tsize,tpoint[1]+tsize-1))
             canva.line((tpoint[0]-tsize,tpoint[1]+tsize-1),(tpoint[0]+tsize-1,tpoint[1]-tsize))
         
+        btnStop=Pin(15,Pin.IN,pull=Pin.PULL_DOWN)
+        btnStop.irq(Car.stop,trigger=Pin.IRQ_RISING)
         gap=128//amount
         c=128
         while True:

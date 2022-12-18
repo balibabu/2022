@@ -1,47 +1,48 @@
 from draw import Draw
-import random, utime
-from machine import Pin
+import random, utime, _thread
+from machine import Pin,PWM
 
 class Snake:
+    def __init__(self):
+        self.buzzer=Pin(20,Pin.OUT)
+        self.obj=Draw()
+        self.head=(25,31)
+        self.body=[(i,31) for i in range(self.head[0]-20,self.head[0]+1)] # head included
+        self.border=[(i,0) for i in range(128)]+[(i,63) for i in range(128)]+[(0,i) for i in range(64)]+[(127,i) for i in range(64)]
 
-    obj=Draw()
-    obj.clear()
-    head=(25,31)
-    body=[(i,31) for i in range(head[0]-20,head[0]+1)] # head included
-    border=[(i,0) for i in range(128)]+[(i,63) for i in range(128)]+[(0,i) for i in range(64)]+[(127,i) for i in range(64)]
-
-    def intro():
-        Snake.obj.oled.text("Game Starts",20,22)
+    def intro(self):
+        self.obj.clear()
+        self.obj.oled.text("Game Starts",20,22)
         for i in range(5,0,-1):
-            Snake.obj.oled.text(f"in {i} seconds",15,38)
-            Snake.obj.show()
-            Snake.obj.oled.text(f"in {i} seconds",15,38,0)
+            self.obj.oled.text(f"in {i} seconds",15,38)
+            self.obj.show()
+            self.obj.oled.text(f"in {i} seconds",15,38,0)
             utime.sleep(1)
-        Snake.obj.clear()
+        self.obj.clear()
         # borders
-        for point in Snake.border:
-            Snake.obj.point(*point)
+        for point in self.border:
+            self.obj.point(*point)
 
-    def render(food,visible=1):
-        Snake.obj.glow=visible
-        for point in Snake.body:
-            Snake.obj.point(*point)
-        Snake.obj.point(*Snake.head)
-        Snake.obj.point(*food)
+    def render(self,food,visible=1):
+        self.obj.glow=visible
+        for point in self.body:
+            self.obj.point(*point)
+        self.obj.point(*self.head)
+        self.obj.point(*food)
 
-    def condtion():
-        if Snake.head in Snake.border or Snake.head in Snake.body:
+    def condtion(self):
+        if self.head in self.border or self.head in self.body:
             return False
         return True
     
-    def randomFood():
+    def randomFood(self):
         while True:
             food=random.randrange(1,126),random.randrange(1,62)
-            if not food in Snake.body:
+            if not food in self.body:
                 return food
 
-    def move(direction,up,down,left,right):
-        head=Snake.head
+    def move(self,direction,up,down,left,right):
+        head=self.head
         if direction==up:
             return head[0],head[1]-1
         elif direction==down:
@@ -52,18 +53,38 @@ class Snake:
             return head[0]+1,head[1]
         
     
-    def play(up,down,left,right):
+    def play(self,up,down,left,right):
+        def buzzerListner(pin,duration=0.3):
+            pwm=PWM(pin)
+            pwm.freq(10)
+            def alarm():
+                for i in range(1000,20001,500):
+                    pwm.duty_u16(i)
+                    utime.sleep(0.01)
+                for i in range(20000,-1,-500):
+                    pwm.duty_u16(i)
+                    utime.sleep(0.01)
+            if duration==3:
+                alarm()
+            else:
+                pwm.duty_u16(5000)
+                utime.sleep(0.1)
+                pwm.duty_u16(0)
+                # pin.value(1)
+                # utime.sleep(duration)
+                # pin.value(0)
+
         upBtn=Pin(up,mode=Pin.IN, pull=Pin.PULL_DOWN)
         downBtn=Pin(down,mode=Pin.IN,pull=Pin.PULL_DOWN)
         leftBtn=Pin(left,mode=Pin.IN,pull=Pin.PULL_DOWN)
         rightBtn=Pin(right,mode=Pin.IN,pull=Pin.PULL_DOWN)
 
-        Snake.intro()        
+        self.intro()        
 
         direction=right
         food=(80,31)
-        Snake.render(food)
-        Snake.obj.show()
+        self.render(food)
+        self.obj.show()
 
         while True:
             if upBtn.value() and direction!=down:
@@ -75,22 +96,24 @@ class Snake:
             elif rightBtn.value() and direction!=left:
                 direction=right
             
-            Snake.render(food,0)
-            Snake.head=Snake.move(direction,up,down,left,right)
-            # utime.sleep(1)
-            if not Snake.condtion(): 
+            self.render(food,0)
+            self.head=self.move(direction,up,down,left,right)
+            if not self.condtion():
+                _thread.start_new_thread(buzzerListner,(self.buzzer,3))
                 break
-            Snake.body.append(Snake.head)
+            self.body.append(self.head)
             utime.sleep(.01)
-            if Snake.head==food:
-                food=Snake.randomFood()
+            if self.head==food:
+                _thread.start_new_thread(buzzerListner,(self.buzzer,0.5))
+                food=self.randomFood()
             else:
-                Snake.body.pop(0)
-            Snake.render(food)
-            Snake.obj.show()
+                self.body.pop(0)
+            self.render(food)
+            self.obj.show()
 
-        Snake.obj.clear()
-        Snake.obj.oled.text("Game Over",20,22,0)
-        Snake.obj.oled.text(f"Your Score:{len(Snake.body)-21}",10,38,0)
-        Snake.obj.show()
-        utime.sleep(10)
+        self.obj.clear()
+        self.obj.oled.text("Game Over",20,22,0)
+        self.obj.oled.text(f"Your Score:{len(self.body)-21}",10,38,0)
+        self.obj.show()
+        utime.sleep(5)
+
