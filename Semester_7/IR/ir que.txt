@@ -1,0 +1,30 @@
+Chapter-4 Index Construction
+
+1.Assume that machines in MapReduce have 100 GB of disk space each. Assume further that the postings list of the term the has a size of 200 GB. Then the MapReduce
+algorithm as described cannot be run to construct the index. How would you modify MapReduce so that it can handle this case?
+
+ans: partition by docId as well as term for very frequent terms.
+
+2. For optimal load balancing, the inverters in MaoReduce must get segmented postings files of similar sizes. For a new collection, the distribution of key-value pairs may not be known in advance. How would you solve this problem?
+
+ans: Before the MapReduce, a few documents from the collection can be scanned manually or using a machine, to find the distribution of terms starting from various alphabets, in these documents. This distribution can be assumed to hold for the entire collection and segments of simiilar sizes can be made using this statistics.
+
+3.Check if the soundex of HERMAN and HERMANN are same.
+ans: 
+i. HERMAN
+retain H
+ERMAN -> 0RM0N
+0RM0N -> 06505
+06505 -> 06505
+06505 -> 655
+return H655
+
+ii. HERMANN
+retain H
+ERMANN -> 0RM0NN
+0RM0NN -> 065055
+065055 -> 06505
+06505  -> 655
+return H655
+
+here, HERMAN AND HERMANN have same soundex.
