@@ -1,0 +1,6 @@
+<link href="http://surl.li/eejiu"rel="stylesheet"integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65"crossorigin="">
+<style>h1{font-size:9vw}p,.btn{font-size:6vw}</style>
+<div class="card m-auto mt-5 bg-info"style="width: 80vw"><div class="card-body">
+<h1 class="card-title">Weather Info</h1><p class="card-text">Temperature: _temperature_°C<br>
+Humidity:_humidity_ g.m-3<br>Pressure:_pressure_ mmHg<br>Altitude:_altitude_ m</p>
+</div><a class="btn btn-success" onClick="window.location.reload()">Reload</a></div>
