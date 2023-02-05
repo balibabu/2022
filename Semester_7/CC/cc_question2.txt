@@ -1,0 +1,13 @@
+chap 1 to 6
+
+1.what are the different technical and business considerations of cloud computing
+while implementing cloud services, Explain.
+
+2.What is a data center, data center are typically comprised of what technologies 
+and components?
+
+3.To provide cloud services, what are the IT resources which can be virtualized in cloud computing?
+
+4.List and explain some of the cloud security threats and attacks.
+
+5.List and explain types of threat agents in cloud computing.

@@ -1,0 +1,2 @@
+1. write down the differences or the similarity among virtualization, 
+multitenant technology, containerization with respective cloud computing
